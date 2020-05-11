@@ -178,7 +178,7 @@ public class Hauptmenue {
     }
 
     /**
-     * Sucht alle Objekte die mit dem regex uebereintimmen
+     * Sucht alle Objekte die mit dem regex uebereintimmen.
      * @param regex Der String nach dem gesucht werden soll
      * @return Ein Set welches alle uebereinstimmenden Objekte enthaelt
      */
