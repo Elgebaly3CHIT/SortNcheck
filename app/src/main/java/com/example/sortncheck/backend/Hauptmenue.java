@@ -200,7 +200,7 @@ public class Hauptmenue {
     public Set<Lagermoeglichkeit> suchenLager(String regex) {
         Set<Lagermoeglichkeit> such = new HashSet<>();
         for (Raum r: raume.values()) {
-            for (Lagermoeglichkeit l: r.getLager().values()) {
+            for (Lagermoeglichkeit l: r.getLagermoeglichkeiten().values()) {
                 if (l.getName().indexOf(regex) > 0) {
                     such.add(l);
                 }
