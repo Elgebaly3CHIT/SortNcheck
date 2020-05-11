@@ -182,7 +182,46 @@ public class Hauptmenue {
      * @param regex Der String nach dem gesucht werden soll
      * @return Ein Set welches alle uebereinstimmenden Objekte enthaelt
      */
-    public Set<Objekt> suchen(String regex) {
+    public Set<Raum> suchenRaum(String regex) {
+        Set<Raum> such = new HashSet<>();
+        for (Raum r: raume.values()) {
+            if (r.getName().indexOf(regex) > 0) {
+                such.add(r);
+            }
+        }
+        return such;
+    }
+
+    /**
+     * Sucht alle Objekte die mit dem regex uebereintimmen
+     * @param regex Der String nach dem gesucht werden soll
+     * @return Ein Set welches alle uebereinstimmenden Objekte enthaelt
+     */
+    public Set<Lagermoeglichkeit> suchenLager(String regex) {
+        Set<Lagermoeglichkeit> such = new HashSet<>();
+        for (Raum r: raume.values()) {
+            for (Lagermoeglichkeit l: r.getLagermoeglichkeiten().values()) {
+                if (l.getName().indexOf(regex) > 0) {
+                    such.add(l);
+                }
+            }
+            for (Lagermoeglichkeit l: r.getLagermoeglichkeiten().values()) {
+                for (Objekt o: l.getObjekte().values()) {
+                    if (o.getName().indexOf(regex) > 0) {
+                        such.add(o);
+                    }
+                }
+            }
+        }
+        return such;
+    }
+
+    /**
+     * Sucht alle Objekte die mit dem regex uebereintimmen
+     * @param regex Der String nach dem gesucht werden soll
+     * @return Ein Set welches alle uebereinstimmenden Objekte enthaelt
+     */
+    public Set<Objekt> suchenObjekt(String regex) {
         Set<Objekt> such = new HashSet<>();
         for (Raum r: raume.values()) {
             for (Objekt o: r.getObjekte().values()) {
