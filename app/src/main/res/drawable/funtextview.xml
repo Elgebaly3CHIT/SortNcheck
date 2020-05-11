@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item >
+        <shape android:shape="rectangle">
+
+            <padding android:left="0px"
+                android:top="5px"
+                android:right="0px"
+                android:bottom="5px"/>
+
+            <solid android:color="@color/background"/>
+
+        </shape>
+    </item>
+    <item >
+        <shape android:shape="rectangle">
+
+            <padding android:left="0px"
+                android:top="4.5px"
+                android:right="0px"
+                android:bottom="4.5px"/>
+
+            <solid android:color="#000"/>
+
+        </shape>
+    </item>
+    <item >
+        <shape android:shape="rectangle">
+            <padding android:left="7dp"
+                android:right="45dp"/>
+            <solid android:color="@color/content"/>
+            <size
+                android:width="270dp"
+                android:height="60dp"
+                />
+        </shape>
+    </item>
+
+
+</layer-list>
