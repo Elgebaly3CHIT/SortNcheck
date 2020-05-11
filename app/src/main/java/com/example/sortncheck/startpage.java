@@ -65,7 +65,7 @@ public class startpage extends AppCompatActivity {
 
         switch(objecttype) {
             case 0: //if its 0, which means ROOM
-                headerText.setText("Room");
+                headerText.setText("Roomssssssssssssssssssssssssssssssssssssssss");
                 break;
             case 1: //if its 0, which means ROOM
                 headerText.setText("Storage");
