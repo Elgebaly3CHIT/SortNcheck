@@ -201,16 +201,7 @@ public class Hauptmenue {
         Set<Lagermoeglichkeit> such = new HashSet<>();
         for (Raum r: raume.values()) {
             for (Lagermoeglichkeit l: r.getLagermoeglichkeiten().values()) {
-                if (l.getName().indexOf(regex) > 0) {
-                    such.add(l);
-                }
-            }
-            for (Lagermoeglichkeit l: r.getLagermoeglichkeiten().values()) {
-                for (Objekt o: l.getObjekte().values()) {
-                    if (o.getName().indexOf(regex) > 0) {
-                        such.add(o);
-                    }
-                }
+                such.addAll(l.suchenLager(regex));
             }
         }
         return such;
@@ -224,17 +215,8 @@ public class Hauptmenue {
     public Set<Objekt> suchenObjekt(String regex) {
         Set<Objekt> such = new HashSet<>();
         for (Raum r: raume.values()) {
-            for (Objekt o: r.getObjekte().values()) {
-                if (o.getName().indexOf(regex) > 0) {
-                    such.add(o);
-                }
-            }
             for (Lagermoeglichkeit l: r.getLagermoeglichkeiten().values()) {
-                for (Objekt o: l.getObjekte().values()) {
-                    if (o.getName().indexOf(regex) > 0) {
-                        such.add(o);
-                    }
-                }
+                such.addAll(l.suchenObjekt(regex));
             }
         }
         return such;

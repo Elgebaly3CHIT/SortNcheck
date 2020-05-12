@@ -425,6 +425,38 @@ public class Lagermoeglichkeit {
         }
     }
 
+    public Set<Lagermoeglichkeit> suchenLager(String regex) {
+        Set<Lagermoeglichkeit> lager = new TreeSet<>();
+        for(Lagermoeglichkeit l: this.lagermoeglichkeiten.values()) {
+            if (l.getLager()==null) {
+                if(l.getName().indexOf(regex) > 0) {
+                    lager.add(l);
+                }
+            }
+            else {
+                lager.addAll(l.suchenLager(regex));
+            }
+        }
+        return lager;
+    }
+
+    public Set<Objekt> suchenObjekt(String regex) {
+        Set<Objekt> lager = new TreeSet<>();
+        for (Objekt o: this.objekte.values()) {
+            if(o.getName().indexOf(regex) > 0) {
+                lager.add(o);
+            }
+        }
+        for(Lagermoeglichkeit l: this.lagermoeglichkeiten.values()) {
+            if (l.getLager()!=null) {
+                if(l.getName().indexOf(regex) > 0) {
+                    lager.addAll(l.suchenObjekt(regex));
+                }
+            }
+        }
+        return lager;
+    }
+
     /**
      * Loescht dieses Lager und alle Werte die sich darin befiden.
      * Fuegt die id des Lagers zu tempId hinzu. Speichert den Stand des Menues.
