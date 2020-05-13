@@ -45,6 +45,10 @@ public class Hauptmenue {
         }
     }
 
+    public Map<Long, Raum> getRaume() {
+        return this.raume;
+    }
+
     /**
      * Holt eine freie Id fuer einen Raum.
      * Wird fuer addMMethoden benutzt
