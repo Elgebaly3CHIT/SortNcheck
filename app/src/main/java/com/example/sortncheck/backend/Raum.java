@@ -28,10 +28,10 @@ public class Raum {
      * @param menue Das menue in dem sich der Raum befindet
      */
     public Raum(long id, String name, String displayName, Hauptmenue menue) {
+        this.menue = menue;
         this.setId(id);
         this.setName(name);
         this.setDisplayName(displayName);
-        this.menue = menue;
     }
 
     public long getId() {
@@ -47,8 +47,11 @@ public class Raum {
     }
 
     public void setName(String name) {
-        if (name.length() < 41) {
+        if (name != null && name.length() < 41) {
             this.name = name;
+        }
+        else {
+            throw new IllegalArgumentException("Name ist zu lang oder null");
         }
     }
 
@@ -59,6 +62,9 @@ public class Raum {
     public void setDisplayName(String displayName) {
         if (displayName.length() < 7 && !this.raumDisplayNameExists(displayName)) {
             this.displayName = displayName;
+        }
+        else {
+            throw new IllegalArgumentException("Display Name ist zu lang, existiert schon oder ist null");
         }
     }
 
@@ -77,8 +83,12 @@ public class Raum {
      * @return true, wenn er schon existiert, ansonsten false
      */
     public boolean raumDisplayNameExists(String displayName) {
-        if(displayName == null) return false;
-        return this.menue.raumDisplayNameExists(displayName);
+        if (displayName == null) {
+            return true;
+        }
+        else {
+            return this.menue.raumDisplayNameExists(displayName);
+        }
     }
 
     /**

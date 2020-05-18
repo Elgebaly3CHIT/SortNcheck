@@ -59,8 +59,11 @@ public class Objekt {
     }
 
     public void setName(String name) {
-        if (name.length() < 41) {
+        if (name != null && name.length() < 41) {
             this.name = name;
+        }
+        else {
+            throw new IllegalArgumentException("Name ist zu lang oder null");
         }
     }
 
@@ -69,10 +72,10 @@ public class Objekt {
     }
 
     public void setBeschreibung(String beschreibung) {
-        if (beschreibung.length() < 501) {
+        if (beschreibung != null && beschreibung.length() < 501) {
             this.beschreibung = beschreibung;
         } else {
-            this.beschreibung = "";
+            throw new IllegalArgumentException("Beschreibung ist zu lang oder null");
         }
     }
 
@@ -83,6 +86,9 @@ public class Objekt {
     public void setDisplayName(String displayName) {
         if (displayName.length() < 7 && !this.objektDisplayNameExists(displayName)) {
             this.displayName = displayName;
+        }
+        else {
+            throw new IllegalArgumentException("Display Name ist zu lang, existiert schon oder ist null");
         }
     }
 
@@ -108,6 +114,9 @@ public class Objekt {
      * @return true wenn er existiert, ansosnten false.
      */
     public boolean objektDisplayNameExists(String displayName) {
+        if (displayName == null) {
+            return true;
+        }
         if (this.raum != null) {
             return this.raum.objektDisplayNameExists(displayName);
         }
