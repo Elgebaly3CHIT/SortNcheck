@@ -55,7 +55,6 @@
 
         <Button
             android:id="@+id/strgbtn"
-            android:padding="2dp"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:autoSizeMaxTextSize="100sp"
@@ -63,7 +62,9 @@
             android:autoSizeStepGranularity="1sp"
             android:autoSizeTextType="uniform"
             android:background="@drawable/funbtn"
+            android:padding="2dp"
             android:text="New storage"
+            android:visibility="visible"
             app:layout_constraintBottom_toTopOf="@+id/guideline19"
             app:layout_constraintEnd_toStartOf="@+id/guideline14"
             app:layout_constraintStart_toStartOf="@+id/guideline18"
@@ -71,24 +72,21 @@
 
         <Button
             android:id="@+id/rmbtn"
-            android:padding="10dp"
-
             android:layout_width="0dp"
+
             android:layout_height="0dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
             android:autoSizeTextType="uniform"
             android:background="@drawable/funbtn"
+            android:padding="10dp"
             android:text="New room"
             android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@+id/guideline19"
-            app:layout_constraintEnd_toStartOf="@+id/guideline14"
+            app:layout_constraintEnd_toEndOf="@+id/itembtn"
             app:layout_constraintStart_toStartOf="@+id/guideline18"
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/itembtn"
-            android:padding="10dp"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginEnd="8dp"
@@ -98,7 +96,9 @@
             android:autoSizeStepGranularity="2sp"
             android:autoSizeTextType="uniform"
             android:background="@drawable/funbtn"
+            android:padding="10dp"
             android:text="New Item"
+            android:visibility="visible"
             app:layout_constraintBottom_toTopOf="@+id/guideline19"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/guideline14"
@@ -221,13 +221,13 @@
         tools:visibility="visible">
 
         <LinearLayout
+            android:id="@+id/buttonarea"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
             <Button
                 android:id="@+id/room4"
-                android:padding="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="0dp"
@@ -237,7 +237,6 @@
 
             <Button
                 android:id="@+id/room1"
-                android:padding="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="0dp"
@@ -248,7 +247,6 @@
 
             <Button
                 android:id="@+id/room"
-                android:padding="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="0dp"
@@ -259,14 +257,12 @@
 
             <Button
                 android:id="@+id/room2"
-                android:padding="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="0dp"
                 android:autoSizeTextType="uniform"
                 android:background="@drawable/funbtn"
                 android:text="Room1" />
-
 
 
         </LinearLayout>
@@ -293,9 +289,9 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/infoBox"
-        android:background="@drawable/funcontent"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:background="@drawable/funcontent"
         android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/guideline2"
         app:layout_constraintEnd_toStartOf="@+id/guideline13"
@@ -324,71 +320,167 @@
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.85" />
 
-        <TextView
-            android:id="@+id/textView3"
+        <ViewSwitcher
+            android:id="@+id/titleSwitcher"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_weight="1"
-            android:autoSizeMaxTextSize="60sp"
-            android:autoSizeMinTextSize="12sp"
-            android:autoSizeTextType="uniform"
-            android:breakStrategy="simple"
-            android:ellipsize="none"
-            android:gravity="center"
-            android:maxLines="100"
-            android:scrollHorizontally="false"
-            android:text="Item 5"
-            android:visibility="visible"
             app:layout_constraintBottom_toTopOf="@+id/guideline3"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/textView4"
+            <TextView
+                android:id="@+id/objecttitle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:autoSizeMaxTextSize="60sp"
+                android:autoSizeMinTextSize="12sp"
+                android:autoSizeTextType="uniform"
+                android:breakStrategy="simple"
+                android:ellipsize="none"
+                android:gravity="center"
+                android:maxLines="100"
+                android:scrollHorizontally="false"
+                android:text="ObjectTitle"
+                android:visibility="visible"
+                app:layout_constraintBottom_toTopOf="@+id/guideline3"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <EditText
+                android:id="@+id/titleenter"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:ellipsize="none"
+                android:inputType="textPersonName"
+                android:maxLines="100"
+                android:scrollHorizontally="false"
+                android:text="Title"
+                android:textSize="30sp"
+                android:visibility="visible"
+                app:layout_constraintBottom_toTopOf="@+id/guideline3"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </ViewSwitcher>
+
+        <ViewSwitcher
+            android:id="@+id/descriptionSwitcher"
             android:layout_width="0dp"
-
             android:layout_height="0dp"
-            android:autoSizeMaxTextSize="60sp"
-            android:autoSizeMinTextSize="12sp"
-            android:autoSizeTextType="uniform"
-            android:background="@drawable/funtextview"
-            android:text="Help"
-            app:autoSizeMinTextSize="12sp"
             app:layout_constraintBottom_toTopOf="@+id/guideline4"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/guideline3"
-            tools:text="Help" />
+            app:layout_constraintTop_toTopOf="@+id/guideline3">
 
-        <Button
-            android:id="@+id/Enter"
+            <TextView
+                android:id="@+id/description"
+                android:layout_width="match_parent"
+
+                android:layout_height="match_parent"
+                android:autoSizeMaxTextSize="60sp"
+                android:autoSizeMinTextSize="12sp"
+                android:autoSizeTextType="uniform"
+                android:background="@drawable/funtextview"
+                android:text="Help"
+                app:autoSizeMinTextSize="12sp"
+                app:layout_constraintBottom_toTopOf="@+id/guideline4"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/guideline3"
+                tools:text="Help" />
+
+            <EditText
+                android:id="@+id/enterdescription"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/funtextview"
+                android:gravity="start|top"
+
+                android:textSize="30sp"
+                android:hint="Enter Description"
+                android:inputType="textMultiLine"
+                app:layout_constraintBottom_toTopOf="@+id/guideline4"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/guideline3" />
+
+        </ViewSwitcher>
+
+        <ViewSwitcher
+            android:id="@+id/buttonSwitcher"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:text="Enter"
-            android:padding="10dp"
-            android:autoSizeTextType="uniform"
-            android:background="@drawable/infoboxbtnleft"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/guideline7"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView4" />
-
-        <Button
-            android:id="@+id/Edit"
-            android:padding="10dp"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:background="@drawable/infoboxbtnright"
-            android:paddingLeft="4.5px"
-            android:autoSizeTextType="uniform"
-            android:text="Edit"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/guideline7"
-            app:layout_constraintTop_toBottomOf="@+id/textView4" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/guideline4" >
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/newbuttons"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline9"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.50" />
+
+                <Button
+                    android:id="@+id/Enter"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:autoSizeTextType="uniform"
+                    android:background="@drawable/infoboxbtnleft"
+                    android:padding="10dp"
+                    android:text="Enter"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline9"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/Edit"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:autoSizeTextType="uniform"
+                    android:background="@drawable/infoboxbtnright"
+                    android:padding="10dp"
+                    android:paddingLeft="4.5px"
+                    android:text="Edit"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/guideline9"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <Button
+                android:id="@+id/save"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="0dp"
+                android:layout_marginRight="0dp"
+                android:layout_marginBottom="0dp"
+                android:autoSizeTextType="uniform"
+                android:background="@drawable/infoboxbtnright"
+                android:padding="10dp"
+                android:paddingLeft="4.5px"
+                android:text="Save"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:visibility="visible" />
+
+        </ViewSwitcher>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -125,8 +125,6 @@
             android:orientation="vertical">
 
             <Button
-                android:paddingLeft = "10dp"
-                android:paddingRight = "10dp"
                 android:id="@+id/RoomButton"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -140,8 +138,6 @@
                 android:text="Rooms" />
 
             <Button
-                android:paddingLeft = "10dp"
-                android:paddingRight = "10dp"
                 android:maxLines="1"
                 android:id="@+id/helpButton"
                 android:layout_width="match_parent"
@@ -161,13 +157,9 @@
                 android:autoSizeMaxTextSize="100sp"
                 android:autoSizeTextType="uniform"
                 android:background="@drawable/funbtn"
-                android:paddingLeft="11dp"
-                android:paddingRight="11dp"
                 android:text="Was ist ein impressum" />
 
             <Button
-                android:paddingLeft = "11dp"
-                android:paddingRight = "11dp"
                 android:maxLines="1"
                 android:id="@+id/SearchButton"
                 android:layout_width="match_parent"

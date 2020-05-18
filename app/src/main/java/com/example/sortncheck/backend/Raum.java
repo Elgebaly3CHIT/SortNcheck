@@ -77,6 +77,7 @@ public class Raum {
      * @return true, wenn er schon existiert, ansonsten false
      */
     public boolean raumDisplayNameExists(String displayName) {
+        if(displayName == null) return false;
         return this.menue.raumDisplayNameExists(displayName);
     }
 
