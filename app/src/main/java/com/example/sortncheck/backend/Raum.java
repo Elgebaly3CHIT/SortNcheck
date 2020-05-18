@@ -28,10 +28,10 @@ public class Raum {
      * @param menue Das menue in dem sich der Raum befindet
      */
     public Raum(long id, String name, String displayName, Hauptmenue menue) {
+        this.menue = menue;
         this.setId(id);
         this.setName(name);
         this.setDisplayName(displayName);
-        this.menue = menue;
     }
 
     public long getId() {
@@ -77,8 +77,12 @@ public class Raum {
      * @return true, wenn er schon existiert, ansonsten false
      */
     public boolean raumDisplayNameExists(String displayName) {
-        if(displayName == null) return false;
-        return this.menue.raumDisplayNameExists(displayName);
+        if (displayName == null) {
+            return true;
+        }
+        else {
+            return this.menue.raumDisplayNameExists(displayName);
+        }
     }
 
     /**
