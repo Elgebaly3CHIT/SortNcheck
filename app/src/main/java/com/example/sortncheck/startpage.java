@@ -71,7 +71,7 @@ public class startpage extends AppCompatActivity {
         buttonarea = (LinearLayout) findViewById(R.id.buttonarea); //area where the buttons are (scrollable)
         // views for Object title and description
         descriptionView = (TextView) findViewById(R.id.description);
-        TextView titleView = (TextView) findViewById(R.id.objecttitle);
+         titleView = (TextView) findViewById(R.id.objecttitle);
         // edits for Object title and description
         descriptionEdit = (TextView) findViewById(R.id.enterdescription);
          titleEdit = (TextView) findViewById(R.id.titleenter);
@@ -143,9 +143,10 @@ public class startpage extends AppCompatActivity {
             }
         });
         saveButton.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View v) {
-
+                newRoom();
             }
         });
 
@@ -218,33 +219,36 @@ public class startpage extends AppCompatActivity {
     }
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void newRoom() {
-        String name = (String) titleEdit.getText();
-        String displayName = (String) displayNameEdit.getText();
+        buttonarea.removeAllViews();
+        String name = (String) titleEdit.getText().toString();
+        String displayName = (String) displayNameEdit.getText().toString();
         overhauptmenue.addRaum(name , displayName);
+        updateButtonsRaum();
+        editType(0);
+
+    }
+    public void selectRaum(Raum raum) {
+        titleView.setText(raum.getName());
+    }
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void updateButtonsRaum() {
+
         Map <Long ,Raum> raume = overhauptmenue.getRaume();
-        roombuttons.clear();
         for (Map.Entry<Long, Raum> entry : raume.entrySet()) {
+            final Raum x = entry.getValue();
             Button btn1 = new Button(this);
+            btn1.setBackgroundResource( R.drawable.funbtn);
             btn1.setText(entry.getValue().getDisplayName());
             btn1.setId(Math.toIntExact(entry.getKey()));
-        }
-
-        /*btn1.setText(name);
-        btn1.setBackgroundResource( R.drawable.funbtn);
-        TextViewCompat.setAutoSizeTextTypeWithDefaults(btn1, TextViewCompat.AUTO_SIZE_TEXT_TYPE_UNIFORM);
-        buttonarea.addView(btn1);
-        btn1.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
-
-        btn1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Map <Long ,Raum> raume = overhauptmenue.getRaume();
-                String x = "";
-                for (Map.Entry<Long, Raum> entry : raume.entrySet()) {
-                    x += entry.getValue().getName();
+            TextViewCompat.setAutoSizeTextTypeWithDefaults(btn1, TextViewCompat.AUTO_SIZE_TEXT_TYPE_UNIFORM);
+            btn1.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+            btn1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    selectRaum(x);
                 }
-                descriptionView.setText(x);
-            }
-        });*/
+            });
+            buttonarea.addView(btn1);
+        }
     }
 }
