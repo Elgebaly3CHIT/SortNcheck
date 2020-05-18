@@ -47,7 +47,7 @@ public class startpage extends AppCompatActivity {
     Hauptmenue overhauptmenue;
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        overhauptmenue = new Hauptmenue();
+
         super.onCreate(savedInstanceState);
         Hauptmenue x = new Hauptmenue();
        /* requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -55,6 +55,7 @@ public class startpage extends AppCompatActivity {
         setContentView(R.layout.activity_startpage);
         //start of the "fun" stuff
         //variable Declaration
+        overhauptmenue = new Hauptmenue();
         headerText = (TextView) findViewById(R.id.typeofObject); // The thing that says in what type of object you are
         infoBox = (ConstraintLayout) findViewById(R.id.infoBox); // the box with info of currently selected object
         final Button oval = findViewById(R.id.oval); //oval "button", only used once
@@ -205,7 +206,5 @@ public class startpage extends AppCompatActivity {
             ViewSwitcher switcher = (ViewSwitcher) findViewById(R.id.titleSwitcher);
             switcher.showNext(); //or switcher.showPrevious();
         }
-    }
-    public void TextViewClicked() {
     }
 }
