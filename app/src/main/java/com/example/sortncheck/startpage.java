@@ -8,6 +8,7 @@ import androidx.core.widget.TextViewCompat;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -20,7 +21,6 @@ import com.example.sortncheck.backend.Lagermoeglichkeit;
 import com.example.sortncheck.backend.Objekt;
 import com.example.sortncheck.backend.Raum;
 
-import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -49,16 +49,20 @@ public class startpage extends AppCompatActivity {
     public Button createRoom;
     public Button saveButton;
 
-    public Map<Button,Raum> roombuttons;
-    public Map<Button,Lagermoeglichkeit> storagebuttons;
-    public Map<Button, Objekt> itembuttons;
 
     public Long currentSelectedObjekt;
-    public Long currentInside;
-    public int edittype = 0;
-    public int objecttype;
-
+    public Long currentInsideID;
+    public int edit_type = 0;
+    public int object_type;
+    public long currentSelectionId;
+    public int selectiontype;
+    public Raum currentInsideRaum;
+    public Lagermoeglichkeit currentInsideStrg;
+    public Raum currentSelectionRaum;
+    public Lagermoeglichkeit currentSelectionStrg;
+    public Objekt currentSelectionItem;
     public Hauptmenue overhauptmenue;
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
@@ -87,15 +91,19 @@ public class startpage extends AppCompatActivity {
         saveButton = findViewById(R.id.save); // button that saves changes
         displayNameEdit = findViewById(R.id.enterDisplayname); // space to enter displayname
         createItm = findViewById(R.id.itembtn); // Button to make new Item
-
+        Button enterbtn = findViewById(R.id.enter);
         //setting up page, according to objecttype, and the room its inside in
         Bundle b = getIntent().getExtras();
-         objecttype = -1; // or other values
         if (b != null) {
-            objecttype = b.getInt("objectType"); // the type of object its currently inside
-            currentInside = b.getLong("insideId"); //the Id of object its currently inside
+            object_type = b.getInt("objectType"); // the type of object its currently inside
+            currentInsideID = b.getLong("Id");
         }
-        setToObject(objecttype);
+
+        setToObject(object_type);
+        //after these lines, the buttons are all good
+        if(object_type == 0) updateButtonsHaupt();
+        if(object_type == 1) updateButtonsRoom();
+        if(object_type == 2) updateButtonsStrg();
 
         //listeners
 
@@ -118,19 +126,18 @@ public class startpage extends AppCompatActivity {
             }
         });
 
-        //Automatically Creates all needed Buttons, and assigns them their Respective Id's
+        //entering a thing
 
-        Button btn1 = new Button(this);
-        btn1.setText("Room1");
-        btn1.setBackgroundResource( R.drawable.funbtn);
-        TextViewCompat.setAutoSizeTextTypeWithDefaults(btn1, TextViewCompat.AUTO_SIZE_TEXT_TYPE_UNIFORM);
-        buttonarea.addView(btn1);
-        btn1.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
-
-        btn1.setOnClickListener(new View.OnClickListener() {
+        enterbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(startpage.this, startpage.class);
+                Bundle b = new Bundle();
+                b.putInt("objectType", selectiontype); // 0 = Room, 1 = Storage, 2 = Item
+                b.putLong("Id",currentSelectionId);
+                intent.putExtras(b);
+                startActivity(intent);
+                finish();
             }
         });
 
@@ -170,26 +177,26 @@ public class startpage extends AppCompatActivity {
     public void setToObject(int objecttype) {
 
         switch(objecttype) {
-            case 0: //if its 0, which means selecting ROOM
-                headerText.setText("Rooms");
-
+            case 0: //if its 0, which means inside Hauptmenu
+                headerText.setText("Sort 'n check");
                 //cant make a item/strg if you are selecting rooms
                 itembtn.setVisibility(View.GONE);
                 strgbtn.setVisibility(View.GONE);
                 rmbtn.setVisibility(View.VISIBLE);
                 break;
-            case 1: //if its 1, which means selecting STORAGE
-                headerText.setText("Storages");
+            case 1: //if its 1, which means inside  Room
+
+                currentInsideRaum = overhauptmenue.getRaum(currentInsideID);
+                headerText.setText(currentInsideRaum.getName());
                 itembtn.setVisibility(View.VISIBLE);
                 strgbtn.setVisibility(View.VISIBLE);
                 rmbtn.setVisibility(View.GONE);
                 break;
-            case 2: //if its 2, which means selecting ITEMS
-                headerText.setText("Items");
+            case 2: //if its 2, which means inside  Storage
+                currentInsideStrg = overhauptmenue.getLager(currentInsideID);
+                headerText.setText(currentInsideStrg.getName());
                 itembtn.setVisibility(View.VISIBLE);
                 strgbtn.setVisibility(View.VISIBLE);
-                descriptionView.setVisibility(View.VISIBLE);
-                descriptionEdit.setVisibility(View.VISIBLE);
                 rmbtn.setVisibility(View.GONE);
                 break;
             default:
@@ -203,7 +210,7 @@ public class startpage extends AppCompatActivity {
      * @param x  = what kind of stuff you want
      */
     public void editType(int x) {
-        edittype = x;
+        edit_type = x;
         if( x == 0) {
             ViewSwitcher btnswitcher = (ViewSwitcher) findViewById(R.id.buttonSwitcher);
             btnswitcher.showNext(); //or switcher.showPrevious();
@@ -227,21 +234,61 @@ public class startpage extends AppCompatActivity {
             switcher.showNext(); //or switcher.showPrevious();
         }
     }
+
+    /**
+     * Fügt ein neuen Raum hinzu
+     */
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void newRoom() {
         buttonarea.removeAllViews();
         String name = (String) titleEdit.getText().toString();
         String displayName = (String) displayNameEdit.getText().toString();
-        overhauptmenue.addRaum(name , displayName);
-        updateButtonsRaum();
+        String beschreibung = (String) descriptionEdit.getText().toString();
+        overhauptmenue.addRaum(name , beschreibung,  displayName);
+        updateButtonsHaupt();
         editType(0);
 
     }
-    public void selectRaum(Raum raum) {
-        titleView.setText(raum.getName());
+
+    /**
+     * Room is selected
+     * @param raum = raum
+     */
+    public void select(Raum raum) {
+        selectiontype = 1;
+        currentSelectionId = raum.getId();
+        currentSelectionRaum = raum;
+        titleView.setText(""+currentSelectionId);
+        descriptionView.setText(currentSelectionRaum.getBeschreibung());
     }
+    /**
+     * Storage is selected
+     * @param strg = strg
+     */
+    public void select(Lagermoeglichkeit strg) {
+        selectiontype = 2;
+        currentSelectionId = strg.getId();
+        currentSelectionStrg = strg;
+        titleView.setText(currentSelectionRaum.getName());
+        descriptionView.setText(currentSelectionRaum.getBeschreibung());
+    }
+    /**
+     * Item is selected
+     * @param item = Item
+     */
+    public void select(Objekt item) {
+        currentSelectionId = item.getId();
+        selectiontype = 2;
+        currentSelectionItem = item;
+        titleView.setText(item.getName());
+        descriptionView.setText(item.getBeschreibung());
+    }
+
+    /**
+     * Function that updates buttons if its selecting rooms (Its inside Hauptmenu)
+     */
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public void updateButtonsRaum() {
+    public void updateButtonsHaupt() {
 
         Map <Long ,Raum> raume = overhauptmenue.getRaume();
         for (Map.Entry<Long, Raum> entry : raume.entrySet()) {
@@ -255,7 +302,90 @@ public class startpage extends AppCompatActivity {
             btn1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    selectRaum(x);
+                    select(x);
+
+                }
+            });
+            buttonarea.addView(btn1);
+        }
+    }
+
+    /**
+     *
+     */
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void updateButtonsRoom() {
+        Map <Long ,Lagermoeglichkeit> strgs = currentInsideRaum.getLagermoeglichkeiten();
+        for (Map.Entry<Long, Lagermoeglichkeit> entry : strgs.entrySet()) {
+            final Lagermoeglichkeit x = entry.getValue();
+            Button btn1 = new Button(this);
+            btn1.setBackgroundResource( R.drawable.funbtn);
+            btn1.setText(entry.getValue().getDisplayName());
+            btn1.setId(Math.toIntExact(entry.getKey()));
+            TextViewCompat.setAutoSizeTextTypeWithDefaults(btn1, TextViewCompat.AUTO_SIZE_TEXT_TYPE_UNIFORM);
+            btn1.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+            btn1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    select(x);
+                }
+            });
+            buttonarea.addView(btn1);
+        }
+        Map <Long ,Objekt> items = currentInsideRaum.getObjekte();
+        for (Map.Entry<Long, Objekt> entry : items.entrySet()) {
+            final Objekt x = entry.getValue();
+            Button btn1 = new Button(this);
+            btn1.setBackgroundResource( R.drawable.funbtn);
+            btn1.setText(entry.getValue().getDisplayName());
+            btn1.setId(Math.toIntExact(entry.getKey()));
+            TextViewCompat.setAutoSizeTextTypeWithDefaults(btn1, TextViewCompat.AUTO_SIZE_TEXT_TYPE_UNIFORM);
+            btn1.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+            btn1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    select(x);
+                }
+            });
+            buttonarea.addView(btn1);
+        }
+    }
+
+    /**
+     * Function that updates buttons if its selecting Strg and Items (Its inside either a room or a storage)
+     */
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void updateButtonsStrg() {
+        Map <Long ,Lagermoeglichkeit> strgs = currentInsideStrg.getLagermoeglichkeiten();
+        for (Map.Entry<Long, Lagermoeglichkeit> entry : strgs.entrySet()) {
+            final Lagermoeglichkeit x = entry.getValue();
+            Button btn1 = new Button(this);
+            btn1.setBackgroundResource( R.drawable.funbtn);
+            btn1.setText(entry.getValue().getDisplayName());
+            btn1.setId(Math.toIntExact(entry.getKey()));
+            TextViewCompat.setAutoSizeTextTypeWithDefaults(btn1, TextViewCompat.AUTO_SIZE_TEXT_TYPE_UNIFORM);
+            btn1.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+            btn1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    select(x);
+                }
+            });
+            buttonarea.addView(btn1);
+        }
+        Map <Long ,Objekt> items = currentInsideStrg.getObjekte();
+        for (Map.Entry<Long, Objekt> entry : items.entrySet()) {
+            final Objekt x = entry.getValue();
+            Button btn1 = new Button(this);
+            btn1.setBackgroundResource( R.drawable.funbtn);
+            btn1.setText(entry.getValue().getDisplayName());
+            btn1.setId(Math.toIntExact(entry.getKey()));
+            TextViewCompat.setAutoSizeTextTypeWithDefaults(btn1, TextViewCompat.AUTO_SIZE_TEXT_TYPE_UNIFORM);
+            btn1.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+            btn1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    select(x);
                 }
             });
             buttonarea.addView(btn1);

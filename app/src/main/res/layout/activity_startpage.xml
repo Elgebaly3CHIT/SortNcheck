@@ -421,7 +421,7 @@
                     app:layout_constraintGuide_percent="0.50" />
 
                 <Button
-                    android:id="@+id/Enter"
+                    android:id="@+id/enter"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:autoSizeTextType="uniform"

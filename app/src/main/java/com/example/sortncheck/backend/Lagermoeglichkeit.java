@@ -1,6 +1,8 @@
 package com.example.sortncheck.backend;
 
 import android.os.Environment;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -16,7 +18,7 @@ import java.util.*;
  * @author Sebastian Zettl
  * @version 2020-25-04
  */
-public class Lagermoeglichkeit {
+public class Lagermoeglichkeit implements Parcelable {
 
     private long id;
     private String name;
@@ -487,5 +489,36 @@ public class Lagermoeglichkeit {
         beschreibung = null;
         lager = null;
         raum = null;
+    }
+    private int mData;
+
+    /* everything below here is for implementing Parcelable */
+
+    // 99.9% of the time you can just ignore this
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    // write your object's data to the passed-in Parcel
+    @Override
+    public void writeToParcel(Parcel out, int flags) {
+        out.writeInt(mData);
+    }
+
+    // this is used to regenerate your object. All Parcelables must have a CREATOR that implements these two methods
+    public static final Parcelable.Creator<Lagermoeglichkeit> CREATOR = new Parcelable.Creator<Lagermoeglichkeit>() {
+        public Lagermoeglichkeit createFromParcel(Parcel in) {
+            return new Lagermoeglichkeit(in);
+        }
+
+        public Lagermoeglichkeit[] newArray(int size) {
+            return new Lagermoeglichkeit[size];
+        }
+    };
+
+    // example constructor that takes a Parcel and gives you an object populated with it's values
+    private Lagermoeglichkeit(Parcel in) {
+        mData = in.readInt();
     }
 }

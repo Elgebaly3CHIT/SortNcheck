@@ -1,6 +1,8 @@
 package com.example.sortncheck.backend;
 
 import android.os.Environment;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import java.io.*;
 import java.io.IOException;
@@ -15,8 +17,8 @@ import java.util.TreeMap;
  * @author Sebastian Zettl
  * @version 2020-25-04
  */
-public class Hauptmenue {
-
+public class Hauptmenue implements Parcelable {
+    private int mData;
     private Map<Long ,Raum> raume; // Map wo die id die auf den Raum verweist
     private long rID; // naechst freie Raum id
     private long lID; // naechst freie Lager id
@@ -519,5 +521,33 @@ public class Hauptmenue {
         catch (IOException e) {
             System.out.println(e.getMessage());
         }
+    }
+    // 99.9% of the time you can just ignore this
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+
+    // write your object's data to the passed-in Parcel
+    @Override
+    public void writeToParcel(Parcel out, int flags) {
+        out.writeInt(mData);
+    }
+
+    // this is used to regenerate your object. All Parcelables must have a CREATOR that implements these two methods
+    public static final Parcelable.Creator<Hauptmenue> CREATOR = new Parcelable.Creator<Hauptmenue>() {
+        public Hauptmenue createFromParcel(Parcel in) {
+            return new Hauptmenue(in);
+        }
+
+        public Hauptmenue[] newArray(int size) {
+            return new Hauptmenue[size];
+        }
+    };
+
+    // example constructor that takes a Parcel and gives you an object populated with it's values
+    private Hauptmenue(Parcel in) {
+        mData = in.readInt();
     }
 }
