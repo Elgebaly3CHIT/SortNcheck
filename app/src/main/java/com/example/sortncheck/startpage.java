@@ -1,10 +1,12 @@
 package com.example.sortncheck;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.widget.TextViewCompat;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -14,6 +16,8 @@ import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
 import com.example.sortncheck.backend.Hauptmenue;
+import com.example.sortncheck.backend.Lagermoeglichkeit;
+import com.example.sortncheck.backend.Objekt;
 import com.example.sortncheck.backend.Raum;
 
 import java.util.Iterator;
@@ -30,6 +34,7 @@ public class startpage extends AppCompatActivity {
     public TextView titleView;
     public TextView descriptionEdit;
     public TextView titleEdit;
+    public TextView displayNameEdit;
     public  ConstraintLayout infoBox;
     public Button strgbtn;
     public Button itembtn;
@@ -39,17 +44,18 @@ public class startpage extends AppCompatActivity {
     public Button createStrg;
     public Button createRoom;
     public Button saveButton;
-    public Button[] roombuttons;
-    public Button[] storagebuttons;
-    public Button[] itembuttons;
+    public Map<Button,Raum> roombuttons;
+    public Map<Button,Lagermoeglichkeit> storagebuttons;
+    public Map<Button, Objekt> itembuttons;
     public int edittype = 0;
 
-    Hauptmenue overhauptmenue;
+     public Hauptmenue overhauptmenue;
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        Hauptmenue x = new Hauptmenue();
+        overhauptmenue = new Hauptmenue();
+
        /* requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);  <-- design choice, if you want full screen or the thing with the notifications and clock and stuff*/
         setContentView(R.layout.activity_startpage);
@@ -64,13 +70,13 @@ public class startpage extends AppCompatActivity {
         rmbtn = findViewById(R.id.rmbtn); // room button, to make a new room
         buttonarea = (LinearLayout) findViewById(R.id.buttonarea); //area where the buttons are (scrollable)
         // views for Object title and description
-        final TextView descriptionView = (TextView) findViewById(R.id.description);
-        TextView titleView = (TextView) findViewById(R.id.objecttitle);
+        descriptionView = (TextView) findViewById(R.id.description);
+         titleView = (TextView) findViewById(R.id.objecttitle);
         // edits for Object title and description
-        TextView descriptionEdit = (TextView) findViewById(R.id.enterdescription);
-        TextView titleEdit = (TextView) findViewById(R.id.titleenter);
+        descriptionEdit = (TextView) findViewById(R.id.enterdescription);
+         titleEdit = (TextView) findViewById(R.id.titleenter);
         saveButton = findViewById(R.id.save);
-
+        displayNameEdit = findViewById(R.id.enterDisplayname);
         createItm = findViewById(R.id.itembtn); // Button to make new Item
 
         //setting up page, according to objecttype
@@ -114,12 +120,7 @@ public class startpage extends AppCompatActivity {
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Map <Long ,Raum> raume = overhauptmenue.getRaume();
-                String x = "";
-                for (Map.Entry<Long, Raum> entry : raume.entrySet()) {
-                    x += entry.getValue().getName();
-                }
-                descriptionView.setText(x);
+
             }
         });
 
@@ -142,10 +143,10 @@ public class startpage extends AppCompatActivity {
             }
         });
         saveButton.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View v) {
-                overhauptmenue.addRaum("EEEE","TEST");
-                editType(0);
+                newRoom();
             }
         });
 
@@ -161,6 +162,7 @@ public class startpage extends AppCompatActivity {
         switch(objecttype) {
             case 0: //if its 0, which means selecting ROOM
                 headerText.setText("Rooms");
+
                 //cant make a item/strg if you are selecting rooms
                 itembtn.setVisibility(View.GONE);
                 strgbtn.setVisibility(View.GONE);
@@ -168,9 +170,17 @@ public class startpage extends AppCompatActivity {
                 break;
             case 1: //if its 1, which means selecting STORAGE
                 headerText.setText("Storages");
+                itembtn.setVisibility(View.VISIBLE);
+                strgbtn.setVisibility(View.VISIBLE);
+                rmbtn.setVisibility(View.GONE);
                 break;
             case 2: //if its 2, which means selecting ITEMS
                 headerText.setText("Items");
+                itembtn.setVisibility(View.VISIBLE);
+                strgbtn.setVisibility(View.VISIBLE);
+                descriptionView.setVisibility(View.VISIBLE);
+                descriptionEdit.setVisibility(View.VISIBLE);
+                rmbtn.setVisibility(View.GONE);
                 break;
             default:
                 headerText.setText("Objecttype not Found");
@@ -205,6 +215,40 @@ public class startpage extends AppCompatActivity {
             dscrswitcher.showNext(); //or switcher.showPrevious();
             ViewSwitcher switcher = (ViewSwitcher) findViewById(R.id.titleSwitcher);
             switcher.showNext(); //or switcher.showPrevious();
+        }
+    }
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void newRoom() {
+        buttonarea.removeAllViews();
+        String name = (String) titleEdit.getText().toString();
+        String displayName = (String) displayNameEdit.getText().toString();
+        overhauptmenue.addRaum(name , displayName);
+        updateButtonsRaum();
+        editType(0);
+
+    }
+    public void selectRaum(Raum raum) {
+        titleView.setText(raum.getName());
+    }
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void updateButtonsRaum() {
+
+        Map <Long ,Raum> raume = overhauptmenue.getRaume();
+        for (Map.Entry<Long, Raum> entry : raume.entrySet()) {
+            final Raum x = entry.getValue();
+            Button btn1 = new Button(this);
+            btn1.setBackgroundResource( R.drawable.funbtn);
+            btn1.setText(entry.getValue().getDisplayName());
+            btn1.setId(Math.toIntExact(entry.getKey()));
+            TextViewCompat.setAutoSizeTextTypeWithDefaults(btn1, TextViewCompat.AUTO_SIZE_TEXT_TYPE_UNIFORM);
+            btn1.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+            btn1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    selectRaum(x);
+                }
+            });
+            buttonarea.addView(btn1);
         }
     }
 }
