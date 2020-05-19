@@ -16,6 +16,7 @@ public class Raum {
     private long id;
     private String name;
     private String displayName;
+    private String beschreibung;
     private Map<Long ,Lagermoeglichkeit> lagermoeglichkeiten = new TreeMap<>();
     private Map<Long ,Objekt> objekte = new TreeMap<>();
     private Hauptmenue menue;
@@ -27,10 +28,11 @@ public class Raum {
      * @param displayName Ein Kuerzel des Names
      * @param menue Das menue in dem sich der Raum befindet
      */
-    public Raum(long id, String name, String displayName, Hauptmenue menue) {
+    public Raum(long id, String name, String displayName, String beschreibung, Hauptmenue menue) {
         this.menue = menue;
         this.setId(id);
         this.setName(name);
+        this.setBeschreibung(beschreibung);
         this.setDisplayName(displayName);
     }
 
@@ -52,6 +54,18 @@ public class Raum {
         }
         else {
             throw new IllegalArgumentException("Name ist zu lang oder null");
+        }
+    }
+
+    public String getBeschreibung() {
+        return beschreibung;
+    }
+
+    public void setBeschreibung(String beschreibung) {
+        if (beschreibung != null && beschreibung.length() < 501) {
+            this.beschreibung = beschreibung;
+        } else {
+            throw new IllegalArgumentException("Beschreibung ist zu lang oder null");
         }
     }
 
@@ -374,6 +388,7 @@ public class Raum {
         lagermoeglichkeiten = null;
         name = null;
         displayName = null;
+        beschreibung = null;
         id = -1;
     }
 }
