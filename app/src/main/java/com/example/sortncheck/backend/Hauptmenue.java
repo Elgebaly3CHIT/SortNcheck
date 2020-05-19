@@ -153,9 +153,9 @@ public class Hauptmenue {
      * @param name Der volle Name des Raumes
      * @param displayName Kuerzel des namens
      */
-    public void addRaum(String name, String displayName) {
+    public void addRaum(String name, String displayName, String beschreibung) {
         long id = this.getFreeRaumID();
-        Raum r = new Raum(id, name, displayName, this);
+        Raum r = new Raum(id, name, displayName, beschreibung,this);
         this.saveNewRaum(r);
         raume.put(id, r);
     }
@@ -295,7 +295,7 @@ public class Hauptmenue {
             s.useDelimiter("\n");
             while(s.hasNext()) {
                 String[] a = s.next().split(";");
-                Raum r = new Raum(Long.parseLong(a[0]), a[1], a[2], this);
+                Raum r = new Raum(Long.parseLong(a[0]), a[1], a[2], a[3], this);
                 this.addRaum(r);
             }
             s.close();
@@ -409,7 +409,7 @@ public class Hauptmenue {
      * @param name Name des Raumes
      * @param displayName DisplayName des Raumes
      */
-    public void editRaum(long id, String name, String displayName) {
+    public void editRaum(long id, String name, String displayName, String beschreibung) {
         List<String> lines = new ArrayList<String>();
         String line = null;
         try {
@@ -421,6 +421,7 @@ public class Hauptmenue {
                 if (Long.parseLong(a[0]) == id) {
                     a[1] = name;
                     a[2] = displayName;
+                    a[3] = beschreibung;
                     line = "";
                     for (int i = 0; i < a.length; i++) {
                         line += a[i];
@@ -507,7 +508,7 @@ public class Hauptmenue {
         try {
             FileWriter fstream = new FileWriter(container, true);
             BufferedWriter out = new BufferedWriter(fstream);
-            String s = raum.getId()+";"+raum.getName()+";"+raum.getDisplayName();
+            String s = raum.getId()+";"+raum.getName()+";"+raum.getDisplayName()+";"+raum.getBeschreibung();
             out.write(s);
             out.newLine();
 
