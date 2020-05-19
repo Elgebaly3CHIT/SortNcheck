@@ -25,6 +25,7 @@ public class MainActivity extends Activity {
                 Intent intent = new Intent(MainActivity.this, startpage.class);
                 Bundle b = new Bundle();
                 b.putInt("objectType", 0); // 0 = Room, 1 = Storage, 2 = Item
+                b.putLong("insideId",-1);
                 intent.putExtras(b);
                 startActivity(intent);
                 finish();

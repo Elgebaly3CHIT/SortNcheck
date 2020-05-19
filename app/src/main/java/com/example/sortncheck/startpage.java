@@ -35,21 +35,30 @@ public class startpage extends AppCompatActivity {
     public TextView descriptionEdit;
     public TextView titleEdit;
     public TextView displayNameEdit;
+
     public  ConstraintLayout infoBox;
+
     public Button strgbtn;
     public Button itembtn;
     public Button rmbtn;
+
     LinearLayout buttonarea;
+
     public Button createItm;
     public Button createStrg;
     public Button createRoom;
     public Button saveButton;
+
     public Map<Button,Raum> roombuttons;
     public Map<Button,Lagermoeglichkeit> storagebuttons;
     public Map<Button, Objekt> itembuttons;
-    public int edittype = 0;
 
-     public Hauptmenue overhauptmenue;
+    public Long currentSelectedObjekt;
+    public Long currentInside;
+    public int edittype = 0;
+    public int objecttype;
+
+    public Hauptmenue overhauptmenue;
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
@@ -61,7 +70,7 @@ public class startpage extends AppCompatActivity {
         setContentView(R.layout.activity_startpage);
         //start of the "fun" stuff
         //variable Declaration
-        overhauptmenue = new Hauptmenue();
+        overhauptmenue = new Hauptmenue(); // alle objekte sind hier
         headerText = (TextView) findViewById(R.id.typeofObject); // The thing that says in what type of object you are
         infoBox = (ConstraintLayout) findViewById(R.id.infoBox); // the box with info of currently selected object
         final Button oval = findViewById(R.id.oval); //oval "button", only used once
@@ -75,15 +84,16 @@ public class startpage extends AppCompatActivity {
         // edits for Object title and description
         descriptionEdit = (TextView) findViewById(R.id.enterdescription);
          titleEdit = (TextView) findViewById(R.id.titleenter);
-        saveButton = findViewById(R.id.save);
-        displayNameEdit = findViewById(R.id.enterDisplayname);
+        saveButton = findViewById(R.id.save); // button that saves changes
+        displayNameEdit = findViewById(R.id.enterDisplayname); // space to enter displayname
         createItm = findViewById(R.id.itembtn); // Button to make new Item
 
-        //setting up page, according to objecttype
+        //setting up page, according to objecttype, and the room its inside in
         Bundle b = getIntent().getExtras();
-        int objecttype = -1; // or other values
+         objecttype = -1; // or other values
         if (b != null) {
-            objecttype = b.getInt("objectType");
+            objecttype = b.getInt("objectType"); // the type of object its currently inside
+            currentInside = b.getLong("insideId"); //the Id of object its currently inside
         }
         setToObject(objecttype);
 
