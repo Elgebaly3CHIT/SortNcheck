@@ -252,7 +252,7 @@ public class Raum {
      * @param lager Das Lager das gespeichert werden soll.
      */
     public void saveNewLager(Lagermoeglichkeit lager) {
-        File container = new File(Environment.getExternalStorageDirectory(), "SortNCheck/Lager.csv");
+        File container = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "SortNCheck/Lager.csv");
 
         try {
             FileWriter fstream = new FileWriter(container, true);
@@ -275,7 +275,7 @@ public class Raum {
      * @param objekt Das Objekt das gespeichert werden soll.
      */
     public void saveNewObjekt(Objekt objekt) {
-        File container = new File(Environment.getExternalStorageDirectory(), "SortNCheck/Objekt.csv");
+        File container = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "SortNCheck/Objekt.csv");
 
         try {
             FileWriter fstream = new FileWriter(container, true);
@@ -297,7 +297,7 @@ public class Raum {
         List<String> lines = new ArrayList<String>();
         String line = null;
         try {
-            File f1 = new File(Environment.getExternalStorageDirectory(), "SortNCheck/Lager.csv");
+            File f1 = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "SortNCheck/Lager.csv");
             FileReader fr = new FileReader(f1);
             BufferedReader br = new BufferedReader(fr);
             while ((line = br.readLine()) != null) {
@@ -336,7 +336,7 @@ public class Raum {
         List<String> lines = new ArrayList<String>();
         String line = null;
         try {
-            File f1 = new File(Environment.getExternalStorageDirectory(), "SortNCheck/Objekt.csv");
+            File f1 = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "SortNCheck/Objekt.csv");
             FileReader fr = new FileReader(f1);
             BufferedReader br = new BufferedReader(fr);
             while ((line = br.readLine()) != null) {

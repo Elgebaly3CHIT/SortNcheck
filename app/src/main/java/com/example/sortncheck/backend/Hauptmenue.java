@@ -3,6 +3,7 @@ package com.example.sortncheck.backend;
 import android.os.Environment;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import java.io.*;
 import java.io.IOException;
@@ -19,27 +20,21 @@ import java.util.TreeMap;
  */
 public class Hauptmenue implements Parcelable {
     private int mData;
-    private Map<Long ,Raum> raume; // Map wo die id die auf den Raum verweist
-    private long rID; // naechst freie Raum id
-    private long lID; // naechst freie Lager id
-    private long oID; // naechst freie Objekt id
-    private Set<Long> tempRID; // temporaer freie id
-    private Set<Long> tempLID; // temporaer freie id
-    private Set<Long> tempOID; // temporaer freie id
+    private Map<Long ,Raum> raume  = new TreeMap<>();; // Map wo die id die auf den Raum verweist
+    private long rID = 0; // naechst freie Raum id
+    private long lID = 0; // naechst freie Lager id
+    private long oID = 0; // naechst freie Objekt id
+    private Set<Long> tempRID = new TreeSet<>();; // temporaer freie id
+    private Set<Long> tempLID = new TreeSet<>();; // temporaer freie id
+    private Set<Long> tempOID = new TreeSet<>();; // temporaer freie id
 
     /**
      * Erstellt ein neues Hauptmenue mmit allen notwendigen Dateien.
      * Falls einen Dateie schon existiert werden diese geladen.
      */
     public Hauptmenue() {
-        if (this.createPath()) {
-            raume = new TreeMap<>();
-            rID = 0;
-            lID = 0;
-            oID = 0;
-            tempRID = new TreeSet<>();
-            tempLID = new TreeSet<>();
-            tempOID = new TreeSet<>();
+        boolean b = this.createPath();
+        if (b) {
             this.saveMenue();
         }
         else {
@@ -160,6 +155,7 @@ public class Hauptmenue implements Parcelable {
         Raum r = new Raum(id, name, displayName, beschreibung,this);
         this.saveNewRaum(r);
         raume.put(id, r);
+        this.saveMenue();
     }
 
     /**
@@ -167,6 +163,8 @@ public class Hauptmenue implements Parcelable {
      * @param raum Ein Raum mit einer Id
      */
     public void addRaum(Raum raum) {
+
+        Log.d("myTag", "This is my message");
         raume.put(raum.getId(), raum);
     }
 
@@ -259,30 +257,34 @@ public class Hauptmenue implements Parcelable {
      * Wird beim start der App ausgefuehrt. Erzeugt alles aus vier CSV Dateien.
      */
     public void load() {
-        File filename = new File(Environment.getExternalStorageDirectory(), "SortNCheck/Menue.csv");
+        File filename = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "SortNCheck/Menue.csv");
 
         try {
             Scanner s = new Scanner(new BufferedReader(new FileReader(filename)));
             s.useDelimiter("\n");
-            String[] a = s.next().split(";");
-            this.rID = Long.parseLong(a[0]);
-            this.lID = Long.parseLong(a[1]);
-            this.oID = Long.parseLong(a[2]);
+            if(s.hasNext()) {
+                String[] a = s.next().split(";");
+                this.rID = Long.parseLong(a[0]);
+                this.lID = Long.parseLong(a[1]);
+                this.oID = Long.parseLong(a[2]);
+                String message = Arrays.toString(a);
+                Log.d("myTag", message);
+                /*String[] sa = a[3].split(",");
 
-            String[] sa = a[3].split(",");
-            this.tempRID.clear();
-            for (int i = 0; i < sa.length; i++) {
-                this.tempRID.add(Long.parseLong(sa[i]));
-            }
-            sa = a[4].split(",");
-            this.tempLID.clear();
-            for (int i = 0; i < sa.length; i++) {
-                this.tempLID.add(Long.parseLong(sa[i]));
-            }
-            sa = a[5].split(",");
-            this.tempOID.clear();
-            for (int i = 0; i < sa.length; i++) {
-                this.tempOID.add(Long.parseLong(sa[i]));
+                this.tempRID.clear();
+                for (int i = 0; i < sa.length; i++) {
+                    this.tempRID.add(Long.parseLong(sa[i]));
+                }
+                sa = a[4].split(",");
+                this.tempLID.clear();
+                for (int i = 0; i < sa.length; i++) {
+                    this.tempLID.add(Long.parseLong(sa[i]));
+                }
+                sa = a[5].split(",");
+                this.tempOID.clear();
+                for (int i = 0; i < sa.length; i++) {
+                    this.tempOID.add(Long.parseLong(sa[i]));
+                }*/
             }
             s.close();
         }
@@ -290,7 +292,7 @@ public class Hauptmenue implements Parcelable {
             System.out.println(e.getMessage());
         }
 
-        filename = new File(Environment.getExternalStorageDirectory(), "SortNCheck/Raum.csv");
+        filename = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "SortNCheck/Raum.csv");
 
         try {
             Scanner s = new Scanner(new BufferedReader(new FileReader(filename)));
@@ -306,7 +308,7 @@ public class Hauptmenue implements Parcelable {
             System.out.println(e.getMessage());
         }
 
-        filename = new File(Environment.getExternalStorageDirectory(), "SortNCheck/Lager.csv");
+        filename = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "SortNCheck/Lager.csv");
 
         try {
             Scanner s = new Scanner(new BufferedReader(new FileReader(filename)));
@@ -342,7 +344,7 @@ public class Hauptmenue implements Parcelable {
             System.out.println(e.getMessage());
         }
 
-        filename = new File(Environment.getExternalStorageDirectory(), "SortNCheck/Objekt.csv");
+        filename = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "SortNCheck/Objekt.csv");
 
         try {
             Scanner s = new Scanner(new BufferedReader(new FileReader(filename)));
@@ -384,15 +386,15 @@ public class Hauptmenue implements Parcelable {
      * @return True wenn die Dateien erstellt wurden, false wenn sie schon existieren.
      */
     public boolean createPath() {
-        File f = new File(Environment.getExternalStorageDirectory(), "SortNCheck");
-        if (f.isDirectory()) {
+        File f = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "SortNCheck");
+        if (f.exists()) {
             return false;
         }
         f.mkdir();
-        File menue = new File(Environment.getExternalStorageDirectory(), "SortNCheck/Menue.csv");
-        File room = new File(Environment.getExternalStorageDirectory(), "SortNCheck/Raum.csv");
-        File container = new File(Environment.getExternalStorageDirectory(), "SortNCheck/Lager.csv");
-        File object = new File(Environment.getExternalStorageDirectory(), "SortNCheck/Objekt.csv");
+        File menue = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "SortNCheck/Menue.csv");
+        File room = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "SortNCheck/Raum.csv");
+        File container = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "SortNCheck/Lager.csv");
+        File object = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "SortNCheck/Objekt.csv");
         try {
             menue.createNewFile();
             room.createNewFile();
@@ -415,7 +417,7 @@ public class Hauptmenue implements Parcelable {
         List<String> lines = new ArrayList<String>();
         String line = null;
         try {
-            File f1 = new File(Environment.getExternalStorageDirectory(), "SortNCheck/Raum.csv");
+            File f1 = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "SortNCheck/Raum.csv");
             FileReader fr = new FileReader(f1);
             BufferedReader br = new BufferedReader(fr);
             while ((line = br.readLine()) != null) {
@@ -454,7 +456,7 @@ public class Hauptmenue implements Parcelable {
      * Speichert den derzeitigen Stand des Menues.
      */
     public void saveMenue() {
-        File container = new File(Environment.getExternalStorageDirectory(), "SortNCheck/Menue.csv");
+        File container = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "SortNCheck/Menue.csv");
 
         try {
             FileWriter fstream = new FileWriter(container);
@@ -505,7 +507,7 @@ public class Hauptmenue implements Parcelable {
      * @param raum Der Raum der gespeichert werden soll.
      */
     public void saveNewRaum(Raum raum) {
-        File container = new File(Environment.getExternalStorageDirectory(), "SortNCheck/Raum.csv");
+        File container = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "SortNCheck/Raum.csv");
 
         try {
             FileWriter fstream = new FileWriter(container, true);
