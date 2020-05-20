@@ -383,6 +383,7 @@
 
                 <EditText
                     android:id="@+id/enterDisplayname"
+                    android:maxLength="6"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:background="@drawable/funtextview"

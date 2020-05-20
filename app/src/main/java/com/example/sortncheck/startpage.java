@@ -8,7 +8,6 @@ import androidx.core.widget.TextViewCompat;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -55,7 +54,7 @@ public class startpage extends AppCompatActivity {
     public int edit_type = 0;
     public int object_type;
     public long currentSelectionId;
-    public int selectiontype;
+    public int selection_type;
     public Raum currentInsideRaum;
     public Lagermoeglichkeit currentInsideStrg;
     public Raum currentSelectionRaum;
@@ -101,9 +100,7 @@ public class startpage extends AppCompatActivity {
 
         setToObject(object_type);
         //after these lines, the buttons are all good
-        if(object_type == 0) updateButtonsHaupt();
-        if(object_type == 1) updateButtonsRoom();
-        if(object_type == 2) updateButtonsStrg();
+        update();
 
         //listeners
 
@@ -133,7 +130,7 @@ public class startpage extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(startpage.this, startpage.class);
                 Bundle b = new Bundle();
-                b.putInt("objectType", selectiontype); // 0 = Room, 1 = Storage, 2 = Item
+                b.putInt("objectType", selection_type); // 0 = Room, 1 = Storage, 2 = Item
                 b.putLong("Id",currentSelectionId);
                 intent.putExtras(b);
                 startActivity(intent);
@@ -145,25 +142,36 @@ public class startpage extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 editType(-1);
+                selection_type = 2;
             }
         });
         strgbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 editType(-1);
+                selection_type = 1;
             }
         });
         rmbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 editType(-1);
+                selection_type = 0;
             }
         });
+        /**
+         * what is currently being saved? 0 = room etc.
+         */
         saveButton.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View v) {
-                newRoom();
+                if(selection_type == 0) newRoom()
+                        ;
+                if(selection_type == 1) newStorage()
+                    ;
+                if(selection_type == 2) //newItem()
+                    ;
             }
         });
 
@@ -236,16 +244,32 @@ public class startpage extends AppCompatActivity {
     }
 
     /**
-     * Fügt ein neuen Raum hinzu
+     * Add new room
+     *
      */
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void newRoom() {
         buttonarea.removeAllViews();
         String name = (String) titleEdit.getText().toString();
         String displayName = (String) displayNameEdit.getText().toString();
-        String beschreibung = (String) descriptionEdit.getText().toString();
-        overhauptmenue.addRaum(name , beschreibung,  displayName);
-        updateButtonsHaupt();
+        String description = (String) descriptionEdit.getText().toString();
+        addObject(name , description,  displayName,0);
+        update();
+        editType(0);
+
+    }
+    /**
+     * Add new storage
+     *
+     */
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void newStorage() {
+        buttonarea.removeAllViews();
+        String name = (String) titleEdit.getText().toString();
+        String displayName = (String) displayNameEdit.getText().toString();
+        String description = (String) descriptionEdit.getText().toString();
+        addObject(name, description , displayName,1);
+        update();
         editType(0);
 
     }
@@ -255,10 +279,10 @@ public class startpage extends AppCompatActivity {
      * @param raum = raum
      */
     public void select(Raum raum) {
-        selectiontype = 1;
+        selection_type = 1;
         currentSelectionId = raum.getId();
         currentSelectionRaum = raum;
-        titleView.setText(""+currentSelectionId);
+        titleView.setText(currentSelectionRaum.getName());
         descriptionView.setText(currentSelectionRaum.getBeschreibung());
     }
     /**
@@ -266,19 +290,20 @@ public class startpage extends AppCompatActivity {
      * @param strg = strg
      */
     public void select(Lagermoeglichkeit strg) {
-        selectiontype = 2;
+        selection_type = 2;
         currentSelectionId = strg.getId();
         currentSelectionStrg = strg;
-        titleView.setText(currentSelectionRaum.getName());
-        descriptionView.setText(currentSelectionRaum.getBeschreibung());
+        titleView.setText(currentSelectionStrg.getName());
+        descriptionView.setText(currentSelectionStrg.getBeschreibung());
     }
     /**
      * Item is selected
      * @param item = Item
      */
     public void select(Objekt item) {
+        selection_type = 3;
         currentSelectionId = item.getId();
-        selectiontype = 2;
+        selection_type = 2;
         currentSelectionItem = item;
         titleView.setText(item.getName());
         descriptionView.setText(item.getBeschreibung());
@@ -311,7 +336,7 @@ public class startpage extends AppCompatActivity {
     }
 
     /**
-     *
+     * Updates all the objects inside of a room
      */
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void updateButtonsRoom() {
@@ -352,7 +377,7 @@ public class startpage extends AppCompatActivity {
     }
 
     /**
-     * Function that updates buttons if its selecting Strg and Items (Its inside either a room or a storage)
+     * Function that updates buttons to show all objects in storage
      */
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void updateButtonsStrg() {
@@ -391,4 +416,71 @@ public class startpage extends AppCompatActivity {
             buttonarea.addView(btn1);
         }
     }
+
+    /**
+     * choose between update kind
+     */
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void update() {
+
+        switch(object_type) {
+            case 0:
+                updateButtonsHaupt();
+                break;
+            case 1:
+                updateButtonsRoom();
+                break;
+            case 2:
+                updateButtonsStrg();
+                break;
+        }
+    }
+
+    /**
+     * Choose where new Object ( Im sure there's a more efficient way to do this. Too bad!)
+     * @param name name of new object
+     * @param description descrtiption of new object
+     * @param displayname displayname of new object
+     * @param type = type of object to add 0 = add room, 1 = add Storage 2 = add Item
+     */
+    public void addObject(String name,  String displayname,String description,int type) {
+        switch(object_type) {
+            case 0:
+                switch(type) {
+                    case 0:
+                        overhauptmenue.addRaum(name,description,displayname);
+                        break;
+                    default: //TODO: Write exception for voodoo shit
+                        break;
+                }
+                break;
+            case 1:
+                switch(type) {
+                    case 1:
+                        currentInsideRaum.addLager(name,description,displayname);
+                        break;
+                    case 2:
+                        currentInsideRaum.addObjekt(name,description,displayname);
+                        break;
+                    default: //TODO: Write exception for voodoo shit
+                        break;
+                }
+                break;
+            case 2:
+                switch(type) {
+                    case 1:
+                        currentInsideStrg.addLager(name,description,displayname);
+                        break;
+                    case 2:
+                        currentInsideStrg.addObjekt(name,description,displayname);
+                        break;
+                    default: //TODO: Write exception for voodoo shit
+                        break;
+                }
+                break;
+            default :
+                //TODO: vodoo
+                break;
+        }
+    };
 }
