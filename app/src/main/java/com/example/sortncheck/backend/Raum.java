@@ -74,7 +74,7 @@ public class Raum {
     }
 
     public void setDisplayName(String displayName) {
-        if (displayName.length() < 7 && !this.raumDisplayNameExists(displayName)) {
+        if (displayName.length() < 11 && !this.raumDisplayNameExists(displayName)) {
             this.displayName = displayName;
         }
         else {

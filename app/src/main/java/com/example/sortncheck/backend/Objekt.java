@@ -97,7 +97,7 @@ public class Objekt implements Parcelable {
     }
 
     public void setDisplayName(String displayName) {
-        if (displayName.length() < 7 && !this.objektDisplayNameExists(displayName)) {
+        if (displayName.length() < 11 && !this.objektDisplayNameExists(displayName)) {
             this.displayName = displayName;
         }
         else {
