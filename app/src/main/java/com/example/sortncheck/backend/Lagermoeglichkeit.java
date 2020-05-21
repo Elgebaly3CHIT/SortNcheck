@@ -254,6 +254,24 @@ public class Lagermoeglichkeit implements Parcelable {
         }
     }
 
+    public Object getParentType() {
+        if (this.raum != null) {
+            return this.raum.getClass();
+        }
+        else {
+            return this.lager.getClass();
+        }
+    }
+
+    public long getParentId() {
+        if (this.raum != null) {
+            return this.raum.getId();
+        }
+        else {
+            return this.lager.getId();
+        }
+    }
+
     /**
      * Fuegt ein neues Objekt mit generirter id in das Lager ein
      * @param name Name des Objektes

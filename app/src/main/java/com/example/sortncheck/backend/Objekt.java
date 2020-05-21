@@ -181,6 +181,24 @@ public class Objekt implements Parcelable {
         }
     }
 
+    public Object getParentType() {
+        if (this.raum != null) {
+            return this.raum.getClass();
+        }
+        else {
+            return this.lager.getClass();
+        }
+    }
+
+    public long getParentId() {
+        if (this.raum != null) {
+            return this.raum.getId();
+        }
+        else {
+            return this.lager.getId();
+        }
+    }
+
     /**
      * Loescht dieses Objekt und alle Werte die sich darin befiden.
      * Fuegt die id des Objektes zu tempId hinzu. Speichert den Stand des Menues.
