@@ -244,7 +244,7 @@ public class Hauptmenue implements Parcelable {
     /**
      * Holt das Lager das an diser id steht
      * @param id Die id des Lagers
-     * @return das Lager, falls es nicht existiert null
+     * @return das Lager, falls es nicht existier null
      */
     public Lagermoeglichkeit getLager(long id) {
         for (Raum r: this.raume.values()) {
