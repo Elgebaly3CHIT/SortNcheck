@@ -1,7 +1,16 @@
 package com.example.sortncheck.backend;
 
+import android.os.Environment;
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Ein einzelnes Objekt wie ein Stift z.B.
@@ -212,6 +221,33 @@ public class Objekt implements Parcelable {
         beschreibung = null;
         lager = null;
         raum = null;
+
+        List<String> lines = new ArrayList<String>();
+        String line = null;
+        try {
+            File f1 = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "SortNCheck/Objekt.csv");
+            FileReader fr = new FileReader(f1);
+            BufferedReader br = new BufferedReader(fr);
+            while ((line = br.readLine()) != null) {
+                String[] a = line.split(";");
+                if (Long.parseLong(a[0]) != id) {
+                    lines.add(line);
+                }
+            }
+            fr.close();
+            br.close();
+
+            FileWriter fw = new FileWriter(f1);
+            BufferedWriter out = new BufferedWriter(fw);
+            for(String s : lines) {
+                out.write(s);
+            }
+            out.flush();
+            out.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
     }
     private int mData;
 
