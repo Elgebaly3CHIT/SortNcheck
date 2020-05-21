@@ -371,6 +371,14 @@ public class Raum {
         }
     }
 
+    public void deleteLager(long id) {
+        this.lagermoeglichkeiten.remove(id);
+    }
+
+    public void deleteObject(long id) {
+        this.objekte.remove(id);
+    }
+
     /**
      * Loescht diesen Raum und alle Werte die sich darin befiden.
      * Fuegt die id des Raumes zu tempId hinzu. Speichert den Stand des Menues.
