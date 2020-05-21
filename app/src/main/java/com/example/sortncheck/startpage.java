@@ -8,6 +8,7 @@ import androidx.core.widget.TextViewCompat;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -456,6 +457,7 @@ public class startpage extends AppCompatActivity {
      */
     public void addObject(String name,  String displayname,String description,int type) {
         switch(object_type) {
+            // if you add inside hauptmenu
             case 0:
                 switch(type) {
                     case 0:
@@ -465,6 +467,7 @@ public class startpage extends AppCompatActivity {
                         break;
                 }
                 break;
+                // if you add inside room
             case 1:
                 switch(type) {
                     case 1:
@@ -477,6 +480,7 @@ public class startpage extends AppCompatActivity {
                         break;
                 }
                 break;
+                // if add inside storage
             case 2:
                 switch(type) {
                     case 1:

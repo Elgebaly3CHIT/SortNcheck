@@ -3,6 +3,7 @@ package com.example.sortncheck.backend;
 import android.os.Environment;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -274,6 +275,7 @@ public class Lagermoeglichkeit implements Parcelable {
     public void addLager(String name, String displayName, String beschreibung) {
         long id = this.getFreeLagerID();
         Lagermoeglichkeit l = new Lagermoeglichkeit(id, name, displayName, beschreibung, this);
+       // Log.i("Lagername",l.getDisplayName());
         this.saveNewLager(l);
         this.getMenue().saveMenue();
         lagermoeglichkeiten.put(id, l);
@@ -305,12 +307,15 @@ public class Lagermoeglichkeit implements Parcelable {
      * @param lager Das Lager das gespeichert werden soll
      */
     public void saveNewLager(Lagermoeglichkeit lager) {
-        File container = new File(Environment.getExternalStorageDirectory(), "SortNCheck/Lager.csv");
+        Log.i("SAVE","SAVE MEEEEEEEE");
+        File container = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "SortNCheck/Lager.csv");
 
         try {
             FileWriter fstream = new FileWriter(container, true);
             BufferedWriter out = new BufferedWriter(fstream);
             String s = lager.getId()+";"+lager.getName()+";"+lager.getDisplayName()+";"+lager.getBeschreibung()+";"+lager.getParentRaumID()+";"+lager.getParentLagerID();
+
+            Log.i("Object",s);
             out.write(s);
             out.newLine();
 
@@ -328,7 +333,7 @@ public class Lagermoeglichkeit implements Parcelable {
      * @param objekt Das Objket das gespeichert werden soll
      */
     public void saveNewObjekt(Objekt objekt) {
-        File container = new File(Environment.getExternalStorageDirectory(), "SortNCheck/Objekt.csv");
+        File container = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "SortNCheck/Objekt.csv");
 
         try {
             FileWriter fstream = new FileWriter(container, true);
@@ -357,7 +362,7 @@ public class Lagermoeglichkeit implements Parcelable {
         List<String> lines = new ArrayList<String>();
         String line = null;
         try {
-            File f1 = new File(Environment.getExternalStorageDirectory(), "SortNCheck/Lager.csv");
+            File f1 = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "SortNCheck/Lager.csv");
             FileReader fr = new FileReader(f1);
             BufferedReader br = new BufferedReader(fr);
             while ((line = br.readLine()) != null) {
@@ -403,7 +408,7 @@ public class Lagermoeglichkeit implements Parcelable {
         List<String> lines = new ArrayList<String>();
         String line = null;
         try {
-            File f1 = new File(Environment.getExternalStorageDirectory(), "SortNCheck/Objekt.csv");
+            File f1 = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "SortNCheck/Objekt.csv");
             FileReader fr = new FileReader(f1);
             BufferedReader br = new BufferedReader(fr);
             while ((line = br.readLine()) != null) {

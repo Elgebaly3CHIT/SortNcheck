@@ -323,21 +323,27 @@ public class Hauptmenue implements Parcelable {
             s.useDelimiter("\n");
             List<String[]> la = new LinkedList<>();
             while(s.hasNext()) {
+
+                Log.d("counter","test");
                 String[] a = s.next().split(";");
                 Lagermoeglichkeit l;
-                if (a[4] != "-1") {
+                if (!a[4].equals("-1")) {
+                    Log.i("a[4]",a[4]);
+                    Log.i("a[5]",a[5]);
                     l = new Lagermoeglichkeit(Long.parseLong(a[0]), a[1], a[2], a[3], this.getRaum(Long.parseLong(a[4])));
                     this.getRaum(Long.parseLong(a[4])).addLager(l);
                 }
                 else {
+
                     la.add(a);
                 }
             }
             s.close();
             //we dont know why it works, we dont know how it works, all we know is that it works. Too bad!
-            for (int i = 0; i > la.size(); i++) {
+            for (int i = 0; i < la.size(); i++) {
                 String[] a = la.get(i);
                 Lagermoeglichkeit l;
+                Log.d("counter",""+i);
                 if (this.getLager(Long.parseLong(a[5])) != null) {
                     l = new Lagermoeglichkeit(Long.parseLong(a[0]), a[1], a[2], a[3], this.getLager(Long.parseLong(a[5])));
                     this.getLager(Long.parseLong(a[5])).addLager(l);
