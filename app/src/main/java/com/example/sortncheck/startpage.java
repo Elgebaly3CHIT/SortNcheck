@@ -43,7 +43,7 @@ public class startpage extends AppCompatActivity {
     public Button rmbtn;
 
     LinearLayout buttonarea;
-
+    public Button enterbtn;
     public Button createItm;
     public Button createStrg;
     public Button createRoom;
@@ -91,7 +91,7 @@ public class startpage extends AppCompatActivity {
         saveButton = findViewById(R.id.save); // button that saves changes
         displayNameEdit = findViewById(R.id.enterDisplayname); // space to enter displayname
         createItm = findViewById(R.id.itembtn); // Button to make new Item
-        Button enterbtn = findViewById(R.id.enter);
+         enterbtn = findViewById(R.id.enter);
 
 
 
@@ -182,7 +182,7 @@ public class startpage extends AppCompatActivity {
                         ;
                 if(selection_type == 1) newStorage()
                     ;
-                if(selection_type == 2) //Todo: newItem()
+                if(selection_type == 2) newItem()
                     ;
             }
         });
@@ -285,6 +285,21 @@ public class startpage extends AppCompatActivity {
         editType(0);
 
     }
+    /**
+     * Add new item, and updates the buttons
+     *
+     */
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void newItem() {
+        buttonarea.removeAllViews();
+        String name = (String) titleEdit.getText().toString();
+        String displayName = (String) displayNameEdit.getText().toString();
+        String description = (String) descriptionEdit.getText().toString();
+        addObject(name, description , displayName,2);
+        update();
+        editType(0);
+
+    }
 
     /**
      * Room is selected
@@ -294,8 +309,9 @@ public class startpage extends AppCompatActivity {
         selection_type = 1;
         currentSelectionId = raum.getId();
         currentSelectionRaum = raum;
-        titleView.setText(""+currentSelectionRaum.getId());
+        titleView.setText(currentSelectionRaum.getName());
         descriptionView.setText(currentSelectionRaum.getBeschreibung());
+        enterbtn.setVisibility(View.VISIBLE);
     }
     /**
      * Storage is selected
@@ -305,8 +321,10 @@ public class startpage extends AppCompatActivity {
         selection_type = 2;
         currentSelectionId = strg.getId();
         currentSelectionStrg = strg;
-        titleView.setText(""+currentSelectionStrg.getId());
+        titleView.setText(""+currentSelectionStrg.getName());
         descriptionView.setText(currentSelectionStrg.getBeschreibung());
+
+        enterbtn.setVisibility(View.VISIBLE);
     }
     /**
      * Item is selected
@@ -317,7 +335,8 @@ public class startpage extends AppCompatActivity {
         currentSelectionId = item.getId();
         selection_type = 2;
         currentSelectionItem = item;
-        titleView.setText(""+currentSelectionItem.getId());
+        enterbtn.setVisibility(View.GONE);
+        titleView.setText(""+currentSelectionItem.getName());
         descriptionView.setText(item.getBeschreibung());
     }
 

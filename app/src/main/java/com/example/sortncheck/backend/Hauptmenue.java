@@ -368,9 +368,9 @@ public class Hauptmenue implements Parcelable {
             while(s.hasNext()) {
                 String[] a = s.next().split(";");
                 Objekt o;
-                if (a[5] != "-1") {
-                    o = new Objekt(Long.parseLong(a[0]), a[1], a[2], a[3], this.getRaum(Long.parseLong(a[5])));
-                    this.getRaum(Long.parseLong(a[5])).addObjekt(o);
+                if (!a[4].equals("-1")) {
+                    o = new Objekt(Long.parseLong(a[0]), a[1], a[2], a[3], this.getRaum(Long.parseLong(a[4])));
+                    this.getRaum(Long.parseLong(a[4])).addObjekt(o);
                 }
                 else {
                     ob.add(a);
@@ -380,8 +380,8 @@ public class Hauptmenue implements Parcelable {
             for (int i = 0; i < ob.size(); i++) {
                 String[] a = ob.get(i);
                 Objekt o;
-                if (this.getLager(Long.parseLong(a[4])) != null) {
-                    o = new Objekt(Long.parseLong(a[0]), a[1], a[2], a[3], this.getLager(Long.parseLong(a[4])));
+                if (this.getLager(Long.parseLong(a[5])) != null) {
+                    o = new Objekt(Long.parseLong(a[0]), a[1], a[2], a[3], this.getLager(Long.parseLong(a[5])));
                     this.getLager(Long.parseLong(a[5])).addObjekt(o);
                 }
                 else {
