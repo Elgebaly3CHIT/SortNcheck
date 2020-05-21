@@ -228,7 +228,7 @@
     </ScrollView>
 
     <ImageButton
-        android:id="@+id/imageButton"
+        android:id="@+id/deletebtn"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="24dp"
@@ -398,14 +398,14 @@
 
                 <EditText
                     android:id="@+id/enterDisplayname"
-                    android:maxLength="6"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:background="@drawable/funtextview"
                     android:gravity="start|top"
-
                     android:hint="Enter Displayname"
+
                     android:inputType="textMultiLine"
+                    android:maxLength="6"
                     android:textSize="27sp"
                     app:layout_constraintBottom_toTopOf="@+id/guideline11"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -422,7 +422,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/guideline4" >
+            app:layout_constraintTop_toTopOf="@+id/guideline4">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/newbuttons"
@@ -445,12 +445,15 @@
                     android:padding="10dp"
                     android:text="Enter"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/guideline9"
+                    app:layout_constraintEnd_toStartOf="@+id/edit"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0"
+                    tools:visibility="visible" />
 
                 <Button
-                    android:id="@+id/Edit"
+                    android:id="@+id/edit"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:autoSizeTextType="uniform"
@@ -461,8 +464,8 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/enter"
-                    app:layout_constraintStart_toStartOf="@+id/guideline9"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:visibility="visible" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <Button

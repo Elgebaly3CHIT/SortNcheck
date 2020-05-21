@@ -44,11 +44,12 @@ public class startpage extends AppCompatActivity {
 
     LinearLayout buttonarea;
     public Button enterbtn;
+    public Button editbtn;
     public Button createItm;
     public Button createStrg;
     public Button createRoom;
     public Button saveButton;
-
+    public ImageButton deleteButton;
 
     public Long currentSelectedObjekt;
     public Long currentInsideID;
@@ -92,10 +93,11 @@ public class startpage extends AppCompatActivity {
         displayNameEdit = findViewById(R.id.enterDisplayname); // space to enter displayname
         createItm = findViewById(R.id.itembtn); // Button to make new Item
          enterbtn = findViewById(R.id.enter);
+        editbtn = findViewById(R.id.edit);
+        deleteButton = findViewById(R.id.deletebtn);
 
-
-
-
+        enterbtn.setEnabled(false);
+        editbtn.setEnabled(false);
         //setting up page, according to objecttype, and the room its inside in
         Bundle b = getIntent().getExtras();
         if (b != null) {
@@ -186,6 +188,20 @@ public class startpage extends AppCompatActivity {
                     ;
             }
         });
+
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onClick(View v) {
+                if(selection_type == 1) deleteRoom()
+                        ;
+                if(selection_type == 2) deleteStorage()
+                        ;
+                if(selection_type == 3) deleteItem()
+                        ;
+            }
+        });
+
 
     }
 
@@ -311,7 +327,6 @@ public class startpage extends AppCompatActivity {
         currentSelectionRaum = raum;
         titleView.setText(currentSelectionRaum.getName());
         descriptionView.setText(currentSelectionRaum.getBeschreibung());
-        enterbtn.setVisibility(View.VISIBLE);
     }
     /**
      * Storage is selected
@@ -360,6 +375,8 @@ public class startpage extends AppCompatActivity {
                 public void onClick(View v) {
                     select(x);
 
+                    enterbtn.setEnabled(true);
+                    editbtn.setEnabled(true);
                 }
             });
             buttonarea.addView(btn1);
@@ -382,8 +399,11 @@ public class startpage extends AppCompatActivity {
             btn1.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
             btn1.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
+               public void onClick(View v) {
                     select(x);
+
+                    enterbtn.setEnabled(true);
+                    editbtn.setEnabled(true);
                 }
             });
             buttonarea.addView(btn1);
@@ -399,8 +419,11 @@ public class startpage extends AppCompatActivity {
             btn1.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
             btn1.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
+               public void onClick(View v) {
                     select(x);
+
+                    enterbtn.setEnabled(true);
+                    editbtn.setEnabled(true);
                 }
             });
             buttonarea.addView(btn1);
@@ -423,8 +446,11 @@ public class startpage extends AppCompatActivity {
             btn1.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
             btn1.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
+               public void onClick(View v) {
                     select(x);
+
+                    enterbtn.setEnabled(true);
+                    editbtn.setEnabled(true);
                 }
             });
             buttonarea.addView(btn1);
@@ -440,8 +466,11 @@ public class startpage extends AppCompatActivity {
             btn1.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
             btn1.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
+               public void onClick(View v) {
                     select(x);
+
+                    enterbtn.setEnabled(true);
+                    editbtn.setEnabled(true);
                 }
             });
             buttonarea.addView(btn1);
@@ -517,4 +546,20 @@ public class startpage extends AppCompatActivity {
                 break;
         }
     };
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void deleteRoom() {
+        buttonarea.removeAllViews();
+        currentSelectionRaum.delete();
+        update();
+    }
+    public void deleteStorage() {
+        buttonarea.removeAllViews();
+        currentSelectionRaum.delete();
+        update();
+    }
+    public void deleteItem() {
+        buttonarea.removeAllViews();
+        currentSelectionRaum.delete();
+        update();
+    }
 }
