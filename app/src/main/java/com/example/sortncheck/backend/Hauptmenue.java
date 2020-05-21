@@ -527,7 +527,7 @@ public class Hauptmenue implements Parcelable {
         try {
             FileWriter fstream = new FileWriter(container, true);
             BufferedWriter out = new BufferedWriter(fstream);
-            String s = raum.getId()+";"+raum.getName()+";"+raum.getDisplayName()+";"+raum.getBeschreibung();
+            String s = raum.getId()+";"+raum.getName()+";"+raum.getDisplayName()+";"+raum.getBeschreibung()+" ";
             out.write(s);
             out.newLine();
 

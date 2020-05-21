@@ -503,6 +503,14 @@ public class Lagermoeglichkeit implements Parcelable {
         return lager;
     }
 
+    public void deleteLager(long id) {
+        this.lagermoeglichkeiten.remove(id);
+    }
+
+    public void deleteObject(long id) {
+        this.objekte.remove(id);
+    }
+
     /**
      * Loescht dieses Lager und alle Werte die sich darin befiden.
      * Fuegt die id des Lagers zu tempId hinzu. Speichert den Stand des Menues.
@@ -542,6 +550,12 @@ public class Lagermoeglichkeit implements Parcelable {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+        if (raum != null) {
+            raum.deleteLager(id);
+        }
+        else {
+            lager.deleteLager(id);
+        }
         lagermoeglichkeiten = null;
         name = null;
         displayName = null;
@@ -549,6 +563,7 @@ public class Lagermoeglichkeit implements Parcelable {
         beschreibung = null;
         lager = null;
         raum = null;
+        System.gc();
     }
     private int mData;
 

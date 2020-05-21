@@ -240,13 +240,19 @@ public class Objekt implements Parcelable {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+        if (raum != null) {
+            raum.deleteObject(id);
+        }
+        else {
+            lager.deleteObject(id);
+        }
         name = null;
         displayName = null;
         id = -1;
         beschreibung = null;
         lager = null;
         raum = null;
-
+        System.gc();
     }
     private int mData;
 
