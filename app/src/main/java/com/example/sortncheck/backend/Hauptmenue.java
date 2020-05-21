@@ -247,64 +247,18 @@ public class Hauptmenue implements Parcelable {
      * @return das Lager, falls es nicht existier null
      */
     public Lagermoeglichkeit getLager(long id) {
-
-        File filename = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "SortNCheck/Lager.csv");
-        List<String[]> la = new LinkedList<>();
-
-        String[] found = null;
-
-        try {
-            Scanner s = new Scanner(new BufferedReader(new FileReader(filename)));
-            s.useDelimiter("\n");
-
-            while (s.hasNext()) {
-                String[] a = s.next().split(";");
-                Lagermoeglichkeit l;
-                la.add(a);
+        for (Raum r: this.raume.values()) {
+            if (r.getLagermoeglichkeiten().containsKey(id)) {
+                return r.getLagermoeglichkeiten().get(id);
             }
-            s.close();
-        }
-        catch (FileNotFoundException e) {
-            System.out.println(e.getMessage());
-        }
-        for (int i = 0; i < la.size(); i++) {
-            String[] a = la.get(i);
-            if (Long.parseLong(a[0]) == id) {
-                found = a;
-                break;
-            }
-        }
-        if (found == null) {
-            return null;
-        }
-        else {
-            Raum r = null;
-            String[] l = found;
-            List<String[]> lla = new LinkedList<>();
-            while (r == null) {
-                for (int i = 0; i < la.size(); i++) {
-                    String[] a = la.get(i);
-                    if (Long.parseLong(a[4]) == Long.parseLong(l[4])) {
-                        r = this.getRaum(Long.parseLong(l[4]));
-                        break;
-                    }
-                    if (Long.parseLong(a[5]) == Long.parseLong(l[5])) {
-                        lla.add(l);
-                        l = a;
-                        break;
-                    }
+            for (Lagermoeglichkeit l: r.getLagermoeglichkeiten().values()) {
+                Lagermoeglichkeit l2 = l.getLager(id);
+                if (l2 != null) {
+                    return l2;
                 }
             }
-            Lagermoeglichkeit lager = null;
-            for (int i = lla.size()-1; i>0; i--) {
-                String[] a = lla.get(i);
-                if (i == lla.size()-1) {
-                    lager = r.getLager(Long.parseLong(a[5]));
-                }
-                lager = lager.getLager(Long.parseLong(a[5]));
-            }
-            return lager;
         }
+        return null;
     }
 
     /**
