@@ -206,7 +206,12 @@ public class Lagermoeglichkeit implements Parcelable {
      * @return Eine freie id
      */
     public long getFreeLagerID() {
-        return raum.getFreeLagerID();
+        if (raum != null) {
+            return raum.getFreeLagerID();
+        }
+        else {
+            return lager.getFreeLagerID();
+        }
     }
 
     /**
@@ -215,7 +220,12 @@ public class Lagermoeglichkeit implements Parcelable {
      * @return Eine freie id
      */
     public long getFreeObjektID() {
-        return raum.getFreeObjektID();
+        if (raum != null) {
+            return raum.getFreeObjektID();
+        }
+        else {
+            return lager.getFreeObjektID();
+        }
     }
 
     /**
