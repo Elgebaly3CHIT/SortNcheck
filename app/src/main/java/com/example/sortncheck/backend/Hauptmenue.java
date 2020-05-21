@@ -251,8 +251,16 @@ public class Hauptmenue implements Parcelable {
             if (r.getLagermoeglichkeiten().containsKey(id)) {
                 return r.getLagermoeglichkeiten().get(id);
             }
+            if (r.getLagermoeglichkeiten().containsKey(id)) {
+                return r.getLagermoeglichkeiten().get(id);
+            }
+            for (Lagermoeglichkeit l: r.getLagermoeglichkeiten().values()) {
+                Lagermoeglichkeit l2 = l.getLager(id);
+                if (l2 != null) {
+                    return l2;
+                }
+            }
         }
-
         return null;
     }
 
