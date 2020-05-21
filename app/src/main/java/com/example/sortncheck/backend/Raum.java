@@ -423,5 +423,6 @@ public class Raum {
         displayName = null;
         beschreibung = null;
         id = -1;
+        System.gc();
     }
 }
