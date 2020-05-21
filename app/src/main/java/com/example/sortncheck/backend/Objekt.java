@@ -215,13 +215,6 @@ public class Objekt implements Parcelable {
     public void delete() {
         this.addOID(id);
         this.getMenue().saveMenue();
-        name = null;
-        displayName = null;
-        id = -1;
-        beschreibung = null;
-        lager = null;
-        raum = null;
-
         List<String> lines = new ArrayList<String>();
         String line = null;
         try {
@@ -247,6 +240,12 @@ public class Objekt implements Parcelable {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+        name = null;
+        displayName = null;
+        id = -1;
+        beschreibung = null;
+        lager = null;
+        raum = null;
 
     }
     private int mData;
