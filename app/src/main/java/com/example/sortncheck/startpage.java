@@ -551,14 +551,18 @@ public class startpage extends AppCompatActivity {
         currentSelectionRaum.delete();
         update();
     }
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public void deleteStorage() {
         buttonarea.removeAllViews();
         currentSelectionStrg.delete();
         update();
     }
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public void deleteItem() {
-        buttonarea.removeAllViews();
+        Log.d("delete","DELTEING ITEM");
+        Button badbutton = findViewById(Math.toIntExact(currentSelectionItem.getId()));
+        badbutton.setSelected(false);
+        badbutton.setVisibility(View.GONE);
         currentSelectionItem.delete();
-        update();
     }
 }
