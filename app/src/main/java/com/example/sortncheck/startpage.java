@@ -282,7 +282,7 @@ public class startpage extends AppCompatActivity {
         selection_type = 1;
         currentSelectionId = raum.getId();
         currentSelectionRaum = raum;
-        titleView.setText(currentSelectionRaum.getName());
+        titleView.setText(""+currentSelectionRaum.getId());
         descriptionView.setText(currentSelectionRaum.getBeschreibung());
     }
     /**
@@ -293,7 +293,7 @@ public class startpage extends AppCompatActivity {
         selection_type = 2;
         currentSelectionId = strg.getId();
         currentSelectionStrg = strg;
-        titleView.setText(currentSelectionStrg.getName());
+        titleView.setText(""+currentSelectionStrg.getId());
         descriptionView.setText(currentSelectionStrg.getBeschreibung());
     }
     /**
@@ -305,7 +305,7 @@ public class startpage extends AppCompatActivity {
         currentSelectionId = item.getId();
         selection_type = 2;
         currentSelectionItem = item;
-        titleView.setText(item.getName());
+        titleView.setText(""+currentSelectionItem.getId());
         descriptionView.setText(item.getBeschreibung());
     }
 

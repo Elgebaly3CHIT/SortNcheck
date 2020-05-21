@@ -320,7 +320,7 @@ public class Hauptmenue implements Parcelable {
             while(s.hasNext()) {
                 String[] a = s.next().split(";");
                 Lagermoeglichkeit l;
-                if (a[5] == "-1") {
+                if (a[4] != "-1") {
                     l = new Lagermoeglichkeit(Long.parseLong(a[0]), a[1], a[2], a[3], this.getRaum(Long.parseLong(a[4])));
                     this.getRaum(Long.parseLong(a[4])).addLager(l);
                 }
@@ -329,7 +329,8 @@ public class Hauptmenue implements Parcelable {
                 }
             }
             s.close();
-            for (int i = 0; i < la.size(); i++) {
+            //we dont know why it works, we dont know how it works, all we know is that it works. Too bad!
+            for (int i = 0; i > la.size(); i++) {
                 String[] a = la.get(i);
                 Lagermoeglichkeit l;
                 if (this.getLager(Long.parseLong(a[5])) != null) {
