@@ -348,7 +348,6 @@ public class startpage extends AppCompatActivity {
     public void select(Objekt item) {
         selection_type = 3;
         currentSelectionId = item.getId();
-        selection_type = 2;
         currentSelectionItem = item;
         enterbtn.setVisibility(View.GONE);
         titleView.setText(""+currentSelectionItem.getName());
@@ -554,12 +553,12 @@ public class startpage extends AppCompatActivity {
     }
     public void deleteStorage() {
         buttonarea.removeAllViews();
-        currentSelectionRaum.delete();
+        currentSelectionStrg.delete();
         update();
     }
     public void deleteItem() {
         buttonarea.removeAllViews();
-        currentSelectionRaum.delete();
+        currentSelectionItem.delete();
         update();
     }
 }
