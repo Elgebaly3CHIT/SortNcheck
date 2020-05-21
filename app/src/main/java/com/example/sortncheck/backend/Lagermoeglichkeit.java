@@ -38,11 +38,12 @@ public class Lagermoeglichkeit implements Parcelable {
      * @param lager Das lager in dem sich dieses Lager befindet
      */
     public Lagermoeglichkeit(long id, String name, String displayName, String beschreibung, Lagermoeglichkeit lager) {
+        this.setLager(lager);
         this.setId(id);
         this.setName(name);
         this.setDisplayName(displayName);
         this.setBeschreibung(beschreibung);
-        this.setLager(lager);
+
     }
 
     /**
@@ -54,11 +55,12 @@ public class Lagermoeglichkeit implements Parcelable {
      * @param raum Der raum in dem sich dieses Lager befindet
      */
     public Lagermoeglichkeit(long id, String name, String displayName, String beschreibung, Raum raum) {
+        this.setRaum(raum);
         this.setId(id);
         this.setName(name);
         this.setDisplayName(displayName);
         this.setBeschreibung(beschreibung);
-        this.setRaum(raum);
+
     }
 
 

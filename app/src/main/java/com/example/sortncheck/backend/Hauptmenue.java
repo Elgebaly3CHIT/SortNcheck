@@ -1,9 +1,12 @@
 package com.example.sortncheck.backend;
 
+import android.os.Build;
 import android.os.Environment;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
+
+import androidx.annotation.RequiresApi;
 
 import java.io.*;
 import java.io.IOException;
@@ -551,5 +554,24 @@ public class Hauptmenue implements Parcelable {
     // example constructor that takes a Parcel and gives you an object populated with it's values
     private Hauptmenue(Parcel in) {
         mData = in.readInt();
+    }
+
+    /**
+     * Resets everything
+     * KILLER QUEEN BITES THE DUST
+     */
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    public static void delete() {
+        File f = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "SortNCheck");
+        File menue = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "SortNCheck/Menue.csv");
+        File room = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "SortNCheck/Raum.csv");
+        File container = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "SortNCheck/Lager.csv");
+        File object = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "SortNCheck/Objekt.csv");
+
+        menue.delete();
+        room.delete();
+        container.delete();
+        object.delete();
+        f.delete();
     }
 }
