@@ -23,7 +23,7 @@ import com.example.sortncheck.backend.Raum;
 import java.util.Map;
 
 /**
- * Die java für die Room/Storage/Item Page. java und xml need renaming, or dont idrk
+ * Die java für die Room/Storage/Item Page. java und xml need renaming, or dont idrc
  * Es settet die onclicks und den content auf
  */
 public class startpage extends AppCompatActivity {
@@ -68,10 +68,10 @@ public class startpage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         overhauptmenue = new Hauptmenue();
 
-       /* requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);  <-- design choice, if you want full screen or the thing with the notifications and clock and stuff*/
         setContentView(R.layout.activity_startpage);
-        //start of the "fun" stuff
+        //From here on out you can work with views
+
+
         //variable Declaration
         overhauptmenue = new Hauptmenue(); // alle objekte sind hier
         headerText = (TextView) findViewById(R.id.typeofObject); // The thing that says in what type of object you are
@@ -91,15 +91,18 @@ public class startpage extends AppCompatActivity {
         displayNameEdit = findViewById(R.id.enterDisplayname); // space to enter displayname
         createItm = findViewById(R.id.itembtn); // Button to make new Item
         Button enterbtn = findViewById(R.id.enter);
+
+
+
+
         //setting up page, according to objecttype, and the room its inside in
         Bundle b = getIntent().getExtras();
         if (b != null) {
             object_type = b.getInt("objectType"); // the type of object its currently inside
             currentInsideID = b.getLong("Id");
         }
-
         setToObject(object_type);
-        //after these lines, the buttons are all good
+        //Updates the buttons once
         update();
 
         //listeners
@@ -114,6 +117,8 @@ public class startpage extends AppCompatActivity {
                 }
             }
         });
+
+
         //home button
         final ImageButton btn = (ImageButton) findViewById(R.id.homebutton);
         btn.setOnClickListener(new View.OnClickListener() {
@@ -124,20 +129,21 @@ public class startpage extends AppCompatActivity {
         });
 
         //entering a thing
-
         enterbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(startpage.this, startpage.class);
                 Bundle b = new Bundle();
-                b.putInt("objectType", selection_type); // 0 = Room, 1 = Storage, 2 = Item
+                b.putInt("objectType", selection_type); // 0 = Room, 1 = Storage, 2 = Item  puts in the selected object type and id fot you to know where you are
                 b.putLong("Id",currentSelectionId);
                 intent.putExtras(b);
                 startActivity(intent);
                 finish();
             }
         });
-
+        /**
+         * Item Button
+         */
         itembtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -145,6 +151,10 @@ public class startpage extends AppCompatActivity {
                 selection_type = 2;
             }
         });
+
+        /**
+         * New Storage button
+         */
         strgbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -152,6 +162,7 @@ public class startpage extends AppCompatActivity {
                 selection_type = 1;
             }
         });
+        // new room button
         rmbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -170,7 +181,7 @@ public class startpage extends AppCompatActivity {
                         ;
                 if(selection_type == 1) newStorage()
                     ;
-                if(selection_type == 2) //newItem()
+                if(selection_type == 2) //Todo: newItem()
                     ;
             }
         });
@@ -244,7 +255,7 @@ public class startpage extends AppCompatActivity {
     }
 
     /**
-     * Add new room
+     * Add new room, and updates the buttons
      *
      */
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -259,7 +270,7 @@ public class startpage extends AppCompatActivity {
 
     }
     /**
-     * Add new storage
+     * Add new storage, and updates the buttons
      *
      */
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -276,7 +287,7 @@ public class startpage extends AppCompatActivity {
 
     /**
      * Room is selected
-     * @param raum = raum
+     * @param raum = raum that got selected
      */
     public void select(Raum raum) {
         selection_type = 1;
@@ -287,7 +298,7 @@ public class startpage extends AppCompatActivity {
     }
     /**
      * Storage is selected
-     * @param strg = strg
+     * @param strg = strg that got selected
      */
     public void select(Lagermoeglichkeit strg) {
         selection_type = 2;
@@ -298,7 +309,7 @@ public class startpage extends AppCompatActivity {
     }
     /**
      * Item is selected
-     * @param item = Item
+     * @param item = Item that got selected
      */
     public void select(Objekt item) {
         selection_type = 3;
@@ -418,7 +429,7 @@ public class startpage extends AppCompatActivity {
     }
 
     /**
-     * choose between update kind
+     * choose between update kind, so that you dont look for items in a hauptmenue etc
      */
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void update() {
