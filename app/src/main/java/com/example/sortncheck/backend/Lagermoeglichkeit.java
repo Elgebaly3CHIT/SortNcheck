@@ -399,15 +399,8 @@ public class Lagermoeglichkeit implements Parcelable {
                     a[1] = name;
                     a[2] = displayName;
                     a[3] = beschreibung;
-                    line = "";
-                    for (int i = 0; i < a.length; i++) {
-                        line += a[i];
-                        if (i+1 != a.length) {
-                            line += ";";
-                        }
-                    }
+                    line = a[0]+";"+a[1]+";"+a[2]+";"+a[3]+";"+a[4]+";"+a[5];
                 }
-
                 lines.add(line);
             }
             fr.close();
@@ -445,13 +438,7 @@ public class Lagermoeglichkeit implements Parcelable {
                     a[1] = name;
                     a[2] = displayName;
                     a[3] = beschreibung;
-                    line = "";
-                    for (int i = 0; i < a.length; i++) {
-                        line += a[i];
-                        if (i+1 != a.length) {
-                            line += ";";
-                        }
-                    }
+                    line = a[0]+";"+a[1]+";"+a[2]+";"+a[3]+";"+a[4]+";"+a[5];
                 }
 
                 lines.add(line);
