@@ -1,10 +1,12 @@
 package com.example.sortncheck;
 
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.widget.TextViewCompat;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -41,7 +43,7 @@ public class startpage extends AppCompatActivity {
     public Button strgbtn;
     public Button itembtn;
     public Button rmbtn;
-
+    public Button cancel;
     LinearLayout buttonarea;
     public Button enterbtn;
     public Button editbtn;
@@ -67,7 +69,7 @@ public class startpage extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         overhauptmenue = new Hauptmenue();
-        
+        selection_type = -1;
         setContentView(R.layout.activity_startpage);
         //From here on out you can work with views
 
@@ -96,6 +98,7 @@ public class startpage extends AppCompatActivity {
         reverseBtn = findViewById(R.id.reverse);
         enterbtn.setEnabled(false);
         editbtn.setEnabled(false);
+        cancel = findViewById(R.id.cancel);
         //setting up page, according to objecttype, and the room its inside in
         Bundle b = getIntent().getExtras();
         if (b != null) {
@@ -105,7 +108,7 @@ public class startpage extends AppCompatActivity {
         setToObject(object_type);
         //Updates the buttons once
         update();
-
+        revert();
         //listeners
 
         //so that the box vanishes on click
@@ -119,7 +122,14 @@ public class startpage extends AppCompatActivity {
             }
         });
 
-
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ViewSwitcher btnswitcher = (ViewSwitcher) findViewById(R.id.cancelbuttons);
+                btnswitcher.showNext();
+                editType(0);
+            }
+        });
         //home button
         final ImageButton btn = (ImageButton) findViewById(R.id.homebutton);
         btn.setOnClickListener(new View.OnClickListener() {
@@ -148,6 +158,9 @@ public class startpage extends AppCompatActivity {
         itembtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                ViewSwitcher btnswitcher = (ViewSwitcher) findViewById(R.id.cancelbuttons);
+                btnswitcher.showNext();
                 editType(-1);
                 selection_type = 2;
             }
@@ -159,6 +172,9 @@ public class startpage extends AppCompatActivity {
         strgbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                ViewSwitcher btnswitcher = (ViewSwitcher) findViewById(R.id.cancelbuttons);
+                btnswitcher.showNext();
                 editType(-1);
                 selection_type = 1;
             }
@@ -167,6 +183,9 @@ public class startpage extends AppCompatActivity {
         rmbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                ViewSwitcher btnswitcher = (ViewSwitcher) findViewById(R.id.cancelbuttons);
+                btnswitcher.showNext();
                 editType(-1);
                 selection_type = 0;
             }
@@ -178,6 +197,9 @@ public class startpage extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View v) {
+
+                ViewSwitcher btnswitcher = (ViewSwitcher) findViewById(R.id.cancelbuttons);
+                btnswitcher.showNext();
                 if(edit_type == -1) {
                     if(selection_type == 0) newRoom()
                             ;
@@ -194,6 +216,7 @@ public class startpage extends AppCompatActivity {
                     if(selection_type == 3) editItem()
                             ;
                 }
+                selection_type = -1;
             }
         });
         /**
@@ -203,16 +226,44 @@ public class startpage extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View v) {
-                enterbtn.setEnabled(false);
-                editbtn.setEnabled(false);
-                if(selection_type == 1) deleteRoom()
+                if(selection_type != -1) {
+                String name = "";
+
+                if(selection_type == 1) name = currentSelectionRaum.getName();
                         ;
-                if(selection_type == 2) deleteStorage()
+                if(selection_type == 2) name = currentSelectionStrg.getName();
                         ;
-                if(selection_type == 3) deleteItem()
+                if(selection_type == 3) name = currentSelectionItem.getName();
                         ;
-            }
-        });
+                new AlertDialog.Builder(startpage.this, android.R.style.Theme_Holo_Dialog)
+                        .setTitle("Delete entry")
+                        .setMessage("Delete "+name  +"?")
+
+                        // Specifying a listener allows you to take an action before dismissing the dialog.
+                        // The dialog is automatically dismissed when a dialog button is clicked.
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                ;
+                                revert();
+                                enterbtn.setEnabled(false);
+                                editbtn.setEnabled(false);
+                                if(selection_type == 1) deleteRoom()
+                                        ;
+                                if(selection_type == 2) deleteStorage()
+                                        ;
+                                if(selection_type == 3) deleteItem()
+                                        ;
+                                selection_type = -1;
+
+                            }
+                        })
+
+                        // A null listener allows the button to dismiss the dialog and take no further action.
+                        .setNegativeButton(android.R.string.no, null)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .show();            }
+        }});
         editbtn.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
@@ -266,7 +317,7 @@ public class startpage extends AppCompatActivity {
 
         switch(objecttype) {
             case 0: //if its 0, which means inside Hauptmenu
-                headerText.setText(""+object_type);
+                headerText.setText("Room Selection : ");
                 //cant make a item/strg if you are selecting rooms
                 itembtn.setVisibility(View.GONE);
                 strgbtn.setVisibility(View.GONE);
@@ -275,14 +326,14 @@ public class startpage extends AppCompatActivity {
             case 1: //if its 1, which means inside  Room
 
                 currentInsideRaum = overhauptmenue.getRaum(currentInsideID);
-                headerText.setText(""+object_type);
+                headerText.setText(currentInsideRaum.getName());
                 itembtn.setVisibility(View.VISIBLE);
                 strgbtn.setVisibility(View.VISIBLE);
                 rmbtn.setVisibility(View.GONE);
                 break;
             case 2: //if its 2, which means inside  Storage
                 currentInsideStrg = overhauptmenue.getLager(currentInsideID);
-                headerText.setText(""+object_type);
+                headerText.setText(currentInsideStrg.getName());
                 itembtn.setVisibility(View.VISIBLE);
                 strgbtn.setVisibility(View.VISIBLE);
                 rmbtn.setVisibility(View.GONE);
@@ -329,13 +380,16 @@ public class startpage extends AppCompatActivity {
      */
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void newRoom() {
-        buttonarea.removeAllViews();
-        String name = (String) titleEdit.getText().toString();
-        String displayName = (String) displayNameEdit.getText().toString();
-        String description = (String) descriptionEdit.getText().toString();
-        addObject(name , description,  displayName,0);
-        update();
-        editType(0);
+        if(!(displayNameEdit.getText().toString().equals(""))) {
+            buttonarea.removeAllViews();
+            String name = (String) titleEdit.getText().toString();
+            String displayName = (String) displayNameEdit.getText().toString();
+            String description = (String) descriptionEdit.getText().toString();
+            if(name.equals("")) name = "NAME NOT SET";
+            addObject(name, description, displayName, 0);
+            update();
+            editType(0);
+        }
 
     }
     /**
@@ -344,13 +398,16 @@ public class startpage extends AppCompatActivity {
      */
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void newStorage() {
-        buttonarea.removeAllViews();
-        String name = (String) titleEdit.getText().toString();
-        String displayName = (String) displayNameEdit.getText().toString();
-        String description = (String) descriptionEdit.getText().toString();
-        addObject(name, description , displayName,1);
-        update();
-        editType(0);
+        if(!(displayNameEdit.getText().toString().equals(""))) {
+            buttonarea.removeAllViews();
+            String name = (String) titleEdit.getText().toString();
+            String displayName = (String) displayNameEdit.getText().toString();
+            String description = (String) descriptionEdit.getText().toString();
+            if(name.equals("")) name = "NAME NOT SET";
+            addObject(name, description, displayName, 1);
+            update();
+            editType(0);
+        }
 
     }
     /**
@@ -359,13 +416,16 @@ public class startpage extends AppCompatActivity {
      */
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void newItem() {
-        buttonarea.removeAllViews();
-        String name = (String) titleEdit.getText().toString();
-        String displayName = (String) displayNameEdit.getText().toString();
-        String description = (String) descriptionEdit.getText().toString();
-        addObject(name, description , displayName,2);
-        update();
-        editType(0);
+        if(!(displayNameEdit.getText().toString().equals(""))) {
+            buttonarea.removeAllViews();
+            String name = (String) titleEdit.getText().toString();
+            String displayName = (String) displayNameEdit.getText().toString();
+            String description = (String) descriptionEdit.getText().toString();
+            if(name.equals("")) name = "NAME NOT SET";
+            addObject(name, description, displayName, 2);
+            update();
+            editType(0);
+        }
 
     }
 
@@ -374,36 +434,41 @@ public class startpage extends AppCompatActivity {
      * @param raum = raum that got selected
      */
     public void select(Raum raum) {
-        selection_type = 1;
-        currentSelectionId = raum.getId();
-        currentSelectionRaum = raum;
-        titleView.setText(currentSelectionRaum.getName());
-        descriptionView.setText(currentSelectionRaum.getBeschreibung());
+        if(edit_type != -1){
+            selection_type = 1;
+            currentSelectionId = raum.getId();
+            currentSelectionRaum = raum;
+            titleView.setText(currentSelectionRaum.getName());
+            descriptionView.setText(currentSelectionRaum.getBeschreibung());
+        }
     }
     /**
      * Storage is selected
      * @param strg = strg that got selected
      */
     public void select(Lagermoeglichkeit strg) {
-        selection_type = 2;
-        currentSelectionId = strg.getId();
-        currentSelectionStrg = strg;
-        titleView.setText(""+currentSelectionStrg.getName());
-        descriptionView.setText(currentSelectionStrg.getBeschreibung());
-
-        enterbtn.setVisibility(View.VISIBLE);
+        if(edit_type != -1){
+            selection_type = 2;
+            currentSelectionId = strg.getId();
+            currentSelectionStrg = strg;
+            titleView.setText(""+currentSelectionStrg.getName());
+            descriptionView.setText(currentSelectionStrg.getBeschreibung());
+            enterbtn.setVisibility(View.VISIBLE);
+        }
     }
     /**
      * Item is selected
      * @param item = Item that got selected
      */
     public void select(Objekt item) {
-        selection_type = 3;
-        currentSelectionId = item.getId();
-        currentSelectionItem = item;
-        enterbtn.setVisibility(View.GONE);
-        titleView.setText(""+currentSelectionItem.getName());
-        descriptionView.setText(item.getBeschreibung());
+        if(edit_type != -1) {
+            selection_type = 3;
+            currentSelectionId = item.getId();
+            currentSelectionItem = item;
+            enterbtn.setVisibility(View.GONE);
+            titleView.setText("" + currentSelectionItem.getName());
+            descriptionView.setText(item.getBeschreibung());
+        }
     }
 
     /**
@@ -669,5 +734,9 @@ public class startpage extends AppCompatActivity {
         intent.putExtras(b);
         startActivity(intent);
         finish();
+    }
+    public void revert() {
+        descriptionView.setText("Description of Object");
+        titleView.setText("Name of Object");
     }
 }

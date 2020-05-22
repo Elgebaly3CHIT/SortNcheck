@@ -18,6 +18,97 @@
         app:layout_constraintStart_toStartOf="@+id/guideline6"
         app:layout_constraintTop_toTopOf="@+id/guideline" >
 
+        <ViewSwitcher
+            android:id="@+id/cancelbuttons"
+            android:layout_width="0dp"
+
+            android:textSize="70sp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@+id/guideline19"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guideline18"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/guideline10"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent="0.50" />
+
+                <Button
+                    android:id="@+id/strgbtn"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:autoSizeMaxTextSize="100sp"
+                    android:autoSizeMinTextSize="12sp"
+                    android:autoSizeStepGranularity="1sp"
+                    android:autoSizeTextType="uniform"
+                    android:background="@drawable/funbtn"
+                    android:padding="2dp"
+                    android:text="New storage"
+                    android:visibility="visible"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline10"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/rmbtn"
+                    android:layout_width="0dp"
+
+                    android:layout_height="0dp"
+                    android:autoSizeTextType="uniform"
+                    android:background="@drawable/funbtn"
+                    android:padding="10dp"
+                    android:text="New room"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/itembtn"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:autoSizeMaxTextSize="100sp"
+                    android:autoSizeMinTextSize="12sp"
+                    android:autoSizeStepGranularity="2sp"
+                    android:autoSizeTextType="uniform"
+                    android:background="@drawable/funbtn"
+                    android:padding="10dp"
+                    android:text="New Item"
+                    android:visibility="visible"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/guideline10"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <Button
+                android:id="@+id/cancel"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:autoSizeMaxTextSize="100sp"
+                android:autoSizeMinTextSize="12sp"
+                android:autoSizeStepGranularity="1sp"
+                android:autoSizeTextType="uniform"
+                android:background="@drawable/funbtn"
+                android:padding="2dp"
+                android:text="@android:string/cancel"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/guideline10"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </ViewSwitcher>
+
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline18"
             android:layout_width="wrap_content"
@@ -52,57 +143,6 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.6" />
-
-        <Button
-            android:id="@+id/strgbtn"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:autoSizeMaxTextSize="100sp"
-            android:autoSizeMinTextSize="12sp"
-            android:autoSizeStepGranularity="1sp"
-            android:autoSizeTextType="uniform"
-            android:background="@drawable/funbtn"
-            android:padding="2dp"
-            android:text="New storage"
-            android:visibility="visible"
-            app:layout_constraintBottom_toTopOf="@+id/guideline19"
-            app:layout_constraintEnd_toStartOf="@+id/guideline14"
-            app:layout_constraintStart_toStartOf="@+id/guideline18"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <Button
-            android:id="@+id/rmbtn"
-            android:layout_width="0dp"
-
-            android:layout_height="0dp"
-            android:autoSizeTextType="uniform"
-            android:background="@drawable/funbtn"
-            android:padding="10dp"
-            android:text="New room"
-            android:visibility="gone"
-            app:layout_constraintBottom_toTopOf="@+id/guideline19"
-            app:layout_constraintEnd_toEndOf="@+id/itembtn"
-            app:layout_constraintStart_toStartOf="@+id/guideline18"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <Button
-            android:id="@+id/itembtn"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:autoSizeMaxTextSize="100sp"
-            android:autoSizeMinTextSize="12sp"
-            android:autoSizeStepGranularity="2sp"
-            android:autoSizeTextType="uniform"
-            android:background="@drawable/funbtn"
-            android:padding="10dp"
-            android:text="New Item"
-            android:visibility="visible"
-            app:layout_constraintBottom_toTopOf="@+id/guideline19"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/guideline14"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
             android:id="@+id/homebutton"
@@ -322,10 +362,12 @@
                 app:layout_constraintVertical_bias="0.0" />
 
             <EditText
+                android:digits="1234567890ß!§$%/()=?qwertzuiopü+asdfghjklöä#yxcvbnm,.-: QWERTZUIOPÜ*ASDFGHJKLÖÄYXCVBNMß_'*~/>"
                 android:id="@+id/titleenter"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+
                 android:ellipsize="none"
                 android:inputType="textPersonName"
                 android:maxLines="100"
@@ -354,17 +396,19 @@
                 android:layout_width="match_parent"
 
                 android:layout_height="match_parent"
-                android:autoSizeMaxTextSize="60sp"
+                android:autoSizeMaxTextSize="42sp"
                 android:autoSizeMinTextSize="12sp"
                 android:autoSizeTextType="uniform"
                 android:background="@drawable/funtextview"
                 android:text="Help"
-                app:autoSizeMinTextSize="12sp"
+                android:breakStrategy="high_quality"
+
+
                 app:layout_constraintBottom_toTopOf="@+id/guideline4"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/guideline3"
-                tools:text="Help" />
+                tools:text="The description of the Object" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -378,6 +422,7 @@
                     app:layout_constraintGuide_percent="0.23" />
 
                 <EditText
+                    android:digits="1234567890ß!§$%/()=?qwertzuiopü+asdfghjklöä#yxcvbnm,.-: QWERTZUIOPÜ*ASDFGHJKLÖÄYXCVBNMß_'*~/>"
                     android:id="@+id/enterdescription"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
@@ -393,6 +438,7 @@
                     app:layout_constraintTop_toTopOf="@+id/guideline11" />
 
                 <EditText
+                    android:digits="1234567890ß!§$%/()=?qwertzuiopü+asdfghjklöä#yxcvbnm,.-: QWERTZUIOPÜ*ASDFGHJKLÖÄYXCVBNMß_'*~/>"
                     android:id="@+id/enterDisplayname"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
@@ -401,7 +447,7 @@
                     android:hint="Enter Displayname"
 
                     android:inputType="textMultiLine"
-                    android:maxLength="6"
+                    android:maxLength="7"
                     android:textSize="27sp"
                     app:layout_constraintBottom_toTopOf="@+id/guideline11"
                     app:layout_constraintEnd_toEndOf="parent"
