@@ -254,12 +254,12 @@ public class Lagermoeglichkeit implements Parcelable {
         }
     }
 
-    public Object getParentType() {
+    public byte getParentType() {
         if (this.raum != null) {
-            return this.raum.getClass();
+            return 0;
         }
         else {
-            return this.lager.getClass();
+            return 1;
         }
     }
 
