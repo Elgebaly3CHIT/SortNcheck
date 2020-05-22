@@ -418,45 +418,7 @@ public class Lagermoeglichkeit implements Parcelable {
         }
     }
 
-    /**
-     * Editiert ein bestehendes Objekt, mit den uebergebennén Parametern.
-     * @param id Die id des Lagers. Kann nicht editiert werden.
-     * @param name Name des Objekts
-     * @param displayName DisplayName des Objektes
-     * @param beschreibung Becshreibung des Objektes
-     */
-    public void editObject(long id, String name, String displayName, String beschreibung) {
-        List<String> lines = new ArrayList<String>();
-        String line = null;
-        try {
-            File f1 = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "SortNCheck/Objekt.csv");
-            FileReader fr = new FileReader(f1);
-            BufferedReader br = new BufferedReader(fr);
-            while ((line = br.readLine()) != null) {
-                String[] a = line.split(";");
-                if (Long.parseLong(a[0]) == id) {
-                    a[1] = name;
-                    a[2] = displayName;
-                    a[3] = beschreibung;
-                    line = a[0]+";"+a[1]+";"+a[2]+";"+a[3]+";"+a[4]+";"+a[5];
-                }
 
-                lines.add(line);
-            }
-            fr.close();
-            br.close();
-
-            FileWriter fw = new FileWriter(f1);
-            BufferedWriter out = new BufferedWriter(fw);
-            for(String s : lines) {
-                out.write(s);
-            }
-            out.flush();
-            out.close();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
 
     public Set<Lagermoeglichkeit> suchenLager(String regex) {
         Set<Lagermoeglichkeit> lager = new TreeSet<>();
