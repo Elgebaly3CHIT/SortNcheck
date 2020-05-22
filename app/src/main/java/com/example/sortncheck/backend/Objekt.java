@@ -231,6 +231,7 @@ public class Objekt implements Parcelable {
                 }
 
                 lines.add(line);
+
             }
             fr.close();
             br.close();
@@ -239,6 +240,7 @@ public class Objekt implements Parcelable {
             BufferedWriter out = new BufferedWriter(fw);
             for(String s : lines) {
                 out.write(s);
+                out.newLine();
             }
             out.flush();
             out.close();
@@ -273,6 +275,7 @@ public class Objekt implements Parcelable {
             BufferedWriter out = new BufferedWriter(fw);
             for(String s : lines) {
                 out.write(s);
+                out.newLine();
             }
             out.flush();
             out.close();

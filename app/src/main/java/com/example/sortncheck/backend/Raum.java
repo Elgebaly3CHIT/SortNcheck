@@ -320,6 +320,7 @@ public class Raum {
             BufferedWriter out = new BufferedWriter(fw);
             for(String s : lines) {
                 out.write(s);
+                out.newLine();
             }
             out.flush();
             out.close();
@@ -369,6 +370,7 @@ public class Raum {
             BufferedWriter out = new BufferedWriter(fw);
             for(String s : lines) {
                 out.write(s);
+                out.newLine();
             }
             out.flush();
             out.close();

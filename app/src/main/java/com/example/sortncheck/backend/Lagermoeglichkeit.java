@@ -397,6 +397,7 @@ public class Lagermoeglichkeit implements Parcelable {
             BufferedWriter out = new BufferedWriter(fw);
             for(String s : lines) {
                 out.write(s);
+                out.newLine();
             }
             out.flush();
             out.close();
@@ -480,6 +481,7 @@ public class Lagermoeglichkeit implements Parcelable {
             BufferedWriter out = new BufferedWriter(fw);
             for(String s : lines) {
                 out.write(s);
+                out.newLine();
             }
             out.flush();
             out.close();
