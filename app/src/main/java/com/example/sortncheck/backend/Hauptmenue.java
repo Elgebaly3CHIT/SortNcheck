@@ -230,8 +230,7 @@ public class Hauptmenue implements Parcelable {
     public void load() {
         File filename = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "SortNCheck/Menue.csv");
 
-        try {
-            Scanner s = new Scanner(new BufferedReader(new FileReader(filename)));
+        try (Scanner s = new Scanner(new BufferedReader(new FileReader(filename)))) {
             s.useDelimiter("\n");
             if(s.hasNext()) {
                 String[] a = s.next().split(";");
@@ -255,7 +254,6 @@ public class Hauptmenue implements Parcelable {
                     this.tempOID.add(Long.parseLong(sa[i]));
                 }*/
             }
-            s.close();
         }
         catch (FileNotFoundException e) {
             System.out.println(e.getMessage());
@@ -263,15 +261,13 @@ public class Hauptmenue implements Parcelable {
 
         filename = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "SortNCheck/Raum.csv");
 
-        try {
-            Scanner s = new Scanner(new BufferedReader(new FileReader(filename)));
+        try (Scanner s = new Scanner(new BufferedReader(new FileReader(filename)))){
             s.useDelimiter("\n");
             while(s.hasNext()) {
                 String[] a = s.next().split(";");
                 Raum r = new Raum(Long.parseLong(a[0]), a[1], a[2], a[3], this);
                 this.addRaum(r);
             }
-            s.close();
         }
         catch (FileNotFoundException e) {
             System.out.println(e.getMessage());
@@ -279,8 +275,7 @@ public class Hauptmenue implements Parcelable {
 
         filename = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "SortNCheck/Lager.csv");
 
-        try {
-            Scanner s = new Scanner(new BufferedReader(new FileReader(filename)));
+        try (Scanner s = new Scanner(new BufferedReader(new FileReader(filename)))) {
             s.useDelimiter("\n");
             List<String[]> la = new LinkedList<>();
             while(s.hasNext()) {
@@ -299,7 +294,6 @@ public class Hauptmenue implements Parcelable {
                     la.add(a);
                 }
             }
-            s.close();
             //we dont know why it works, we dont know how it works, all we know is that it works. Too bad!
             for (int i = 0; i < la.size(); i++) {
                 String[] a = la.get(i);
@@ -322,8 +316,7 @@ public class Hauptmenue implements Parcelable {
 
         filename = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "SortNCheck/Objekt.csv");
 
-        try {
-            Scanner s = new Scanner(new BufferedReader(new FileReader(filename)));
+        try (Scanner s = new Scanner(new BufferedReader(new FileReader(filename)))){
             s.useDelimiter("\n");
             List<String[]> ob = new LinkedList<>();
             while(s.hasNext()) {
@@ -337,7 +330,6 @@ public class Hauptmenue implements Parcelable {
                     ob.add(a);
                 }
             }
-            s.close();
             for (int i = 0; i < ob.size(); i++) {
                 String[] a = ob.get(i);
                 Objekt o;
@@ -355,6 +347,7 @@ public class Hauptmenue implements Parcelable {
         catch (FileNotFoundException e) {
             System.out.println(e.getMessage());
         }
+
     }
 
     /**
@@ -389,9 +382,7 @@ public class Hauptmenue implements Parcelable {
     public void saveMenue() {
         File container = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "SortNCheck/Menue.csv");
 
-        try {
-            FileWriter fstream = new FileWriter(container);
-            BufferedWriter out = new BufferedWriter(fstream);
+        try (PrintWriter out = new PrintWriter(container)) {
             String s = this.ID+";";
 
             StringBuilder sb = new StringBuilder();
@@ -421,12 +412,7 @@ public class Hauptmenue implements Parcelable {
                     sb.append(",");
                 }
             }
-            out.write(s);
-            out.newLine();
-
-            //close buffer writer
-            out.flush();
-            out.close();
+            out.println(s);
         }
         catch (IOException e) {
             System.out.println(e.getMessage());

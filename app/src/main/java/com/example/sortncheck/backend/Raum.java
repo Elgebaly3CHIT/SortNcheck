@@ -245,16 +245,9 @@ public class Raum {
     public void saveNewLager(Lagermoeglichkeit lager) {
         File container = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "SortNCheck/Lager.csv");
 
-        try {
-            FileWriter fstream = new FileWriter(container, true);
-            BufferedWriter out = new BufferedWriter(fstream);
+        try (PrintWriter out = new PrintWriter((container))) {
             String s = lager.getId()+";"+lager.getName()+";"+lager.getDisplayName()+";"+lager.getBeschreibung()+";"+lager.getParentRaumID()+";"+lager.getParentLagerID();
-            out.write(s);
-            out.newLine();
-
-            //close buffer writer
-            out.flush();
-            out.close();
+            out.println(s);
         }
         catch (IOException e) {
             System.out.println(e.getMessage());
@@ -268,16 +261,9 @@ public class Raum {
     public void saveNewObjekt(Objekt objekt) {
         File container = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "SortNCheck/Objekt.csv");
 
-        try {
-            FileWriter fstream = new FileWriter(container, true);
-            BufferedWriter out = new BufferedWriter(fstream);
+        try (PrintWriter out = new PrintWriter((container))) {
             String s = objekt.getId()+";"+objekt.getName()+";"+objekt.getDisplayName()+";"+objekt.getBeschreibung()+";"+objekt.getParentRaumID()+";"+objekt.getParentLagerID();
-            out.write(s);
-            out.newLine();
-
-            //close buffer writer
-            out.flush();
-            out.close();
+            out.println(s);
         }
         catch (IOException e) {
             System.out.println(e.getMessage());
@@ -292,10 +278,8 @@ public class Raum {
     public void editRaum(String name, String displayName, String beschreibung) {
         List<String> lines = new ArrayList<String>();
         String line = null;
-        try {
-            File f1 = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "SortNCheck/Raum.csv");
-            FileReader fr = new FileReader(f1);
-            BufferedReader br = new BufferedReader(fr);
+        File f1 = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "SortNCheck/Raum.csv");
+        try (BufferedReader br = new BufferedReader(new FileReader(f1))) {
             while ((line = br.readLine()) != null) {
                 String[] a = line.split(";");
                 if (Long.parseLong(a[0]) == id) {
@@ -305,7 +289,7 @@ public class Raum {
                     line = "";
                     for (int i = 0; i < a.length; i++) {
                         line += a[i];
-                        if (i+1 != a.length) {
+                        if (i + 1 != a.length) {
                             line += ";";
                         }
                     }
@@ -313,18 +297,16 @@ public class Raum {
 
                 lines.add(line);
             }
-            fr.close();
-            br.close();
-
-            FileWriter fw = new FileWriter(f1);
-            BufferedWriter out = new BufferedWriter(fw);
+        }
+        catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        try (PrintWriter fw = new PrintWriter(f1)) {
             for(String s : lines) {
-                out.write(s);
-                out.newLine();
+                fw.println(s);
             }
-            out.flush();
-            out.close();
-        } catch (Exception ex) {
+        }
+        catch (IOException ex) {
             ex.printStackTrace();
         }
     }
@@ -351,32 +333,30 @@ public class Raum {
         }
         this.addRID(id);
         this.getMenue().saveMenue();
+
         List<String> lines = new ArrayList<String>();
         String line = null;
-        try {
-            File f1 = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "SortNCheck/Raum.csv");
-            FileReader fr = new FileReader(f1);
-            BufferedReader br = new BufferedReader(fr);
+        File f1 = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "SortNCheck/Raum.csv");
+        try (BufferedReader br = new BufferedReader(new FileReader(f1))) {
             while ((line = br.readLine()) != null) {
                 String[] a = line.split(";");
                 if (Long.parseLong(a[0]) != id) {
                     lines.add(line);
                 }
             }
-            fr.close();
-            br.close();
-
-            FileWriter fw = new FileWriter(f1);
-            BufferedWriter out = new BufferedWriter(fw);
-            for(String s : lines) {
-                out.write(s);
-                out.newLine();
-            }
-            out.flush();
-            out.close();
-        } catch (Exception ex) {
+        }
+        catch (IOException ex) {
             ex.printStackTrace();
         }
+        try (PrintWriter fw = new PrintWriter(f1)) {
+            for(String s : lines) {
+                fw.println(s);
+            }
+        }
+        catch (IOException ex) {
+            ex.printStackTrace();
+        }
+
         lagermoeglichkeiten = null;
         name = null;
         displayName = null;

@@ -11,6 +11,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.*;
 
 /**
@@ -324,18 +325,11 @@ public class Lagermoeglichkeit implements Parcelable {
         Log.i("SAVE","SAVE MEEEEEEEE");
         File container = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "SortNCheck/Lager.csv");
 
-        try {
-            FileWriter fstream = new FileWriter(container, true);
-            BufferedWriter out = new BufferedWriter(fstream);
+        try (PrintWriter out = new PrintWriter((container))) {
             String s = lager.getId()+";"+lager.getName()+";"+lager.getDisplayName()+";"+lager.getBeschreibung()+";"+lager.getParentRaumID()+";"+lager.getParentLagerID();
 
             Log.i("Object",s);
-            out.write(s);
-            out.newLine();
-
-            //close buffer writer
-            out.flush();
-            out.close();
+            out.println(s);
         }
         catch (IOException e) {
             System.out.println(e.getMessage());
@@ -349,16 +343,9 @@ public class Lagermoeglichkeit implements Parcelable {
     public void saveNewObjekt(Objekt objekt) {
         File container = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "SortNCheck/Objekt.csv");
 
-        try {
-            FileWriter fstream = new FileWriter(container, true);
-            BufferedWriter out = new BufferedWriter(fstream);
+        try (PrintWriter out = new PrintWriter((container))) {
             String s = objekt.getId()+";"+objekt.getName()+";"+objekt.getDisplayName()+";"+objekt.getBeschreibung()+";"+objekt.getParentRaumID()+";"+objekt.getParentLagerID();
-            out.write(s);
-            out.newLine();
-
-            //close buffer writer
-            out.flush();
-            out.close();
+            out.println(s);
         }
         catch (IOException e) {
             System.out.println(e.getMessage());
@@ -374,10 +361,9 @@ public class Lagermoeglichkeit implements Parcelable {
     public void editLager(String name, String displayName, String beschreibung) {
         List<String> lines = new ArrayList<String>();
         String line = null;
-        try {
-            File f1 = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "SortNCheck/Lager.csv");
-            FileReader fr = new FileReader(f1);
-            BufferedReader br = new BufferedReader(fr);
+        File f1 = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "SortNCheck/Lager.csv");
+        try (BufferedReader br = new BufferedReader(new FileReader(f1))) {
+
             while ((line = br.readLine()) != null) {
                 String[] a = line.split(";");
                 if (Long.parseLong(a[0]) == id) {
@@ -390,18 +376,16 @@ public class Lagermoeglichkeit implements Parcelable {
                 }
                 lines.add(line);
             }
-            fr.close();
-            br.close();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
 
-            FileWriter fw = new FileWriter(f1);
-            BufferedWriter out = new BufferedWriter(fw);
+        try (PrintWriter fw = new PrintWriter(f1)) {
             for(String s : lines) {
-                out.write(s);
-                out.newLine();
+                fw.println(s);
             }
-            out.flush();
-            out.close();
-        } catch (Exception ex) {
+        }
+        catch (IOException ex) {
             ex.printStackTrace();
         }
     }
@@ -462,32 +446,31 @@ public class Lagermoeglichkeit implements Parcelable {
         }
         this.addLID(id);
         this.getMenue().saveMenue();
+
         List<String> lines = new ArrayList<String>();
         String line = null;
-        try {
-            File f1 = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "SortNCheck/Lager.csv");
-            FileReader fr = new FileReader(f1);
-            BufferedReader br = new BufferedReader(fr);
+        File f1 = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "SortNCheck/Lager.csv");
+        try (BufferedReader br = new BufferedReader(new FileReader(f1))){
             while ((line = br.readLine()) != null) {
                 String[] a = line.split(";");
                 if (Long.parseLong(a[0]) != id) {
                     lines.add(line);
                 }
             }
-            fr.close();
-            br.close();
-
-            FileWriter fw = new FileWriter(f1);
-            BufferedWriter out = new BufferedWriter(fw);
-            for(String s : lines) {
-                out.write(s);
-                out.newLine();
-            }
-            out.flush();
-            out.close();
-        } catch (Exception ex) {
+        } catch (IOException ex) {
             ex.printStackTrace();
         }
+
+        try (PrintWriter fw = new PrintWriter(f1)) {
+            for(String s : lines) {
+                fw.println(s);
+            }
+        }
+        catch (IOException ex) {
+            ex.printStackTrace();
+        }
+
+
         if (raum != null) {
             raum.deleteLager(id);
         }
