@@ -209,13 +209,12 @@ public class Objekt implements Parcelable {
     }
 
     /**
-     * Editiert ein bestehendes Objekt, mit den uebergebennén Parametern.
-     * @param id Die id des Lagers. Kann nicht editiert werden.
+     * Editiert ein bestehendes Objekt, mit den uebergebennén Parametern
      * @param name Name des Objekts
      * @param displayName DisplayName des Objektes
      * @param beschreibung Becshreibung des Objektes
      */
-    public void editObject(long id, String name, String displayName, String beschreibung) {
+    public void editObject(String name, String displayName, String beschreibung) {
         List<String> lines = new ArrayList<String>();
         String line = null;
         try {

@@ -381,12 +381,11 @@ public class Lagermoeglichkeit implements Parcelable {
 
     /**
      * Editiert ein bestehendes Lager, mit den uebergebennén Parametern.
-     * @param id Die id des Lagers. Kann nicht editiert werden.
      * @param name Name des Lagers
      * @param displayName DisplayName des Lagers
      * @param beschreibung Becshreibung des Lagers
      */
-    public void editLager(long id, String name, String displayName, String beschreibung) {
+    public void editLager(String name, String displayName, String beschreibung) {
         List<String> lines = new ArrayList<String>();
         String line = null;
         try {
