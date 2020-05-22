@@ -46,12 +46,10 @@ public class startpage extends AppCompatActivity {
     public Button enterbtn;
     public Button editbtn;
     public Button createItm;
-    public Button createStrg;
-    public Button createRoom;
     public Button saveButton;
     public ImageButton deleteButton;
+    public ImageButton reverseBtn;
 
-    public Long currentSelectedObjekt;
     public Long currentInsideID;
     public int edit_type = 0;
     public int object_type;
@@ -95,7 +93,7 @@ public class startpage extends AppCompatActivity {
          enterbtn = findViewById(R.id.enter);
         editbtn = findViewById(R.id.edit);
         deleteButton = findViewById(R.id.deletebtn);
-
+        reverseBtn = findViewById(R.id.reverse);
         enterbtn.setEnabled(false);
         editbtn.setEnabled(false);
         //setting up page, according to objecttype, and the room its inside in
@@ -205,6 +203,8 @@ public class startpage extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View v) {
+                enterbtn.setEnabled(false);
+                editbtn.setEnabled(false);
                 if(selection_type == 1) deleteRoom()
                         ;
                 if(selection_type == 2) deleteStorage()
@@ -221,7 +221,40 @@ public class startpage extends AppCompatActivity {
 
             }
         });
+        reverseBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int reversetype = -1;
+                long id = 0;
+                switch(object_type) {
 
+                    case 1:
+                        Log.wtf("inside","Room");
+                        reversetype = 0;
+                        id = -1;
+                        break;
+                    case 2:
+                        Log.wtf("inside","storage");
+                        reversetype = currentInsideStrg.getParentType();
+                        reversetype++;
+                        id = currentInsideStrg.getParentId();
+                        break;
+                }
+
+                if(object_type == 0) {
+                    startActivity(new Intent(startpage.this, MainActivity.class));
+                }
+                else {
+                    Intent intent = new Intent(startpage.this, startpage.class);
+                    Bundle b = new Bundle();
+                    b.putInt("objectType", reversetype); // 0 = Room, 1 = Storage, 2 = Item  puts in the selected object type and id fot you to know where you are
+                    b.putLong("Id",id);
+                    intent.putExtras(b);
+                    startActivity(intent);
+                    finish();
+                }
+            }
+        });
     }
 
     /**
@@ -233,7 +266,7 @@ public class startpage extends AppCompatActivity {
 
         switch(objecttype) {
             case 0: //if its 0, which means inside Hauptmenu
-                headerText.setText("Sortncheck");
+                headerText.setText(""+object_type);
                 //cant make a item/strg if you are selecting rooms
                 itembtn.setVisibility(View.GONE);
                 strgbtn.setVisibility(View.GONE);
@@ -242,14 +275,14 @@ public class startpage extends AppCompatActivity {
             case 1: //if its 1, which means inside  Room
 
                 currentInsideRaum = overhauptmenue.getRaum(currentInsideID);
-                headerText.setText(""+currentInsideRaum.getName());
+                headerText.setText(""+object_type);
                 itembtn.setVisibility(View.VISIBLE);
                 strgbtn.setVisibility(View.VISIBLE);
                 rmbtn.setVisibility(View.GONE);
                 break;
             case 2: //if its 2, which means inside  Storage
                 currentInsideStrg = overhauptmenue.getLager(currentInsideID);
-                headerText.setText(""+currentInsideStrg.getName());
+                headerText.setText(""+object_type);
                 itembtn.setVisibility(View.VISIBLE);
                 strgbtn.setVisibility(View.VISIBLE);
                 rmbtn.setVisibility(View.GONE);
@@ -570,6 +603,7 @@ public class startpage extends AppCompatActivity {
         badbutton.setSelected(false);
         badbutton.setVisibility(View.GONE);
         currentSelectionRaum.delete();
+        overhauptmenue = new Hauptmenue();
     }
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void deleteStorage() {
