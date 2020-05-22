@@ -138,17 +138,8 @@ public class Raum {
      * Wird fuer addMMethoden benutzt
      * @return Eine freie id
      */
-    public long getFreeLagerID() {
-        return menue.getFreeLagerID();
-    }
-
-    /**
-     * Holt eine freie Id fuer ein Objekt.
-     * Wird fuer addMMethoden benutzt
-     * @return Eine freie id
-     */
-    public long getFreeObjektID() {
-        return menue.getFreeObjektID();
+    public long getFreeID() {
+        return menue.getFreeID();
     }
 
     /**
@@ -191,7 +182,7 @@ public class Raum {
      * @param beschreibung Eine Beschreibung des Objektes
      */
     public void addObjekt(String name, String displayName, String beschreibung) {
-        long id = this.getFreeObjektID();
+        long id = this.getFreeID();
         Objekt o = new Objekt(id, name, displayName, beschreibung, this);
         this.saveNewObjekt(o);
         this.menue.saveMenue();
@@ -213,7 +204,7 @@ public class Raum {
      * @param beschreibung Eine Beschreibung des Lagers
      */
     public void addLager(String name, String displayName, String beschreibung) {
-        long id = this.getFreeLagerID();
+        long id = this.getFreeID();
         Lagermoeglichkeit l = new Lagermoeglichkeit(id, name, displayName, beschreibung, this);
         this.saveNewLager(l);
         this.menue.saveMenue();

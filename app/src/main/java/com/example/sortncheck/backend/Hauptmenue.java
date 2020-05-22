@@ -24,9 +24,8 @@ import java.util.TreeMap;
 public class Hauptmenue implements Parcelable {
     private int mData;
     private Map<Long ,Raum> raume  = new TreeMap<>();; // Map wo die id die auf den Raum verweist
-    private long rID = 0; // naechst freie Raum id
-    private long lID = 0; // naechst freie Lager id
-    private long oID = 0; // naechst freie Objekt id
+    private long ID = 0; // naechst freie Raum id
+
     private Set<Long> tempRID = new TreeSet<>();; // temporaer freie id
     private Set<Long> tempLID = new TreeSet<>();; // temporaer freie id
     private Set<Long> tempOID = new TreeSet<>();; // temporaer freie id
@@ -54,51 +53,15 @@ public class Hauptmenue implements Parcelable {
      * Wird fuer addMMethoden benutzt
      * @return Eine freie id
      */
-    public long getFreeRaumID() {
+    public long getFreeID() {
         if (tempRID.size() == 0) {
-            long id = rID;
-            rID++;
+            long id = ID;
+            ID++;
             return id;
         }
         else {
             long id = tempRID.iterator().next();
             this.removeRID();
-            return id;
-        }
-    }
-
-    /**
-     * Holt eine freie Id fuer ein Lager.
-     * Wird fuer addMMethoden benutzt
-     * @return Eine freie id
-     */
-    public long getFreeLagerID() {
-        if (tempLID.size() == 0) {
-            long id = lID;
-            lID++;
-            return id;
-        }
-        else {
-            long id = tempLID.iterator().next();
-            this.removeLID();
-            return id;
-        }
-    }
-
-    /**
-     * Holt eine freie Id fuer ein Objekt.
-     * Wird fuer addMMethoden benutzt
-     * @return Eine freie id
-     */
-    public long getFreeObjektID() {
-        if (tempOID.size() == 0) {
-            long id = oID;
-            oID++;
-            return id;
-        }
-        else {
-            long id = tempOID.iterator().next();
-            this.removeOID();
             return id;
         }
     }
@@ -154,7 +117,7 @@ public class Hauptmenue implements Parcelable {
      * @param displayName Kuerzel des namens
      */
     public void addRaum(String name, String displayName, String beschreibung) {
-        long id = this.getFreeRaumID();
+        long id = this.getFreeID();
         Raum r = new Raum(id, name, displayName, beschreibung,this);
         this.saveNewRaum(r);
         raume.put(id, r);
@@ -272,9 +235,7 @@ public class Hauptmenue implements Parcelable {
             s.useDelimiter("\n");
             if(s.hasNext()) {
                 String[] a = s.next().split(";");
-                this.rID = Long.parseLong(a[0]);
-                this.lID = Long.parseLong(a[1]);
-                this.oID = Long.parseLong(a[2]);
+                this.ID = Long.parseLong(a[0]);
                 String message = Arrays.toString(a);
                 Log.d("myTag", message);
                 /*String[] sa = a[3].split(",");
@@ -431,7 +392,7 @@ public class Hauptmenue implements Parcelable {
         try {
             FileWriter fstream = new FileWriter(container);
             BufferedWriter out = new BufferedWriter(fstream);
-            String s = this.rID+";"+this.lID+";"+this.oID;
+            String s = this.ID+";";
 
             StringBuilder sb = new StringBuilder();
             for (Iterator i = tempRID.iterator(); i.hasNext();) {
