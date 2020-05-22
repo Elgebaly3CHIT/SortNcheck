@@ -25,7 +25,10 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
-        //onclick from Homepage => RoomPage
+
+
+
+
         final Button btn = (Button)findViewById(R.id.RoomButton);
         final Button resetbtn = findViewById(R.id.resetbtn);
         final TextView info = findViewById(R.id.hmpginfotxt);

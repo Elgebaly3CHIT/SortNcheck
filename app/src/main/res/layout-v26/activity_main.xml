@@ -154,7 +154,7 @@
                 android:id="@+id/contactButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:autoSizeMaxTextSize="100sp"
+                android:autoSizeMaxTextSize="30sp"
                 android:autoSizeTextType="uniform"
                 android:background="@drawable/funbtn"
                 android:text="impressum" />

@@ -484,7 +484,7 @@ public class startpage extends AppCompatActivity {
             btn1.setBackgroundResource( R.drawable.funbtn);
             btn1.setText(entry.getValue().getDisplayName());
             btn1.setId(Math.toIntExact(entry.getKey()));
-            TextViewCompat.setAutoSizeTextTypeWithDefaults(btn1, TextViewCompat.AUTO_SIZE_TEXT_TYPE_UNIFORM);
+            btn1.setTextSize(30);
             btn1.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
             btn1.setOnClickListener(new View.OnClickListener() {
                 @Override

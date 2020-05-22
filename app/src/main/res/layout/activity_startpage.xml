@@ -447,7 +447,7 @@
                     android:hint="Enter Displayname"
 
                     android:inputType="textMultiLine"
-                    android:maxLength="7"
+                    android:maxLength="6"
                     android:textSize="27sp"
                     app:layout_constraintBottom_toTopOf="@+id/guideline11"
                     app:layout_constraintEnd_toEndOf="parent"
