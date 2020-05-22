@@ -188,7 +188,7 @@ public class startpage extends AppCompatActivity {
                     if(selection_type == 2) newItem()
                         ;
                 }
-                else {
+                if(edit_type == 1)  {
                     if(selection_type == 1) editRoom()
                             ;
                     if(selection_type == 2) editStorage()
