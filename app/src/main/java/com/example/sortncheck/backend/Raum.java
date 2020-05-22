@@ -295,11 +295,10 @@ public class Raum {
 
     /**
      * Editiert einen bestehenden Raum, mit den uebergebennén Parametern.
-     * @param id Id des Raumes der editiert wird, kann nicht editiert werden.
      * @param name Name des Raumes
      * @param displayName DisplayName des Raumes
      */
-    public void editRaum(long id, String name, String displayName, String beschreibung) {
+    public void editRaum(String name, String displayName, String beschreibung) {
         List<String> lines = new ArrayList<String>();
         String line = null;
         try {
