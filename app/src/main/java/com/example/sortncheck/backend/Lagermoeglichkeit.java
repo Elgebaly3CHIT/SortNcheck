@@ -400,6 +400,8 @@ public class Lagermoeglichkeit implements Parcelable {
                     a[2] = displayName;
                     a[3] = beschreibung;
                     line = a[0]+";"+a[1]+";"+a[2]+";"+a[3]+";"+a[4]+";"+a[5];
+
+                    Log.e("Log",line);
                 }
                 lines.add(line);
             }

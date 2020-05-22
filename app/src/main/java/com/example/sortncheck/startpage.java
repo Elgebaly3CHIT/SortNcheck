@@ -591,7 +591,6 @@ public class startpage extends AppCompatActivity {
      */
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void editRoom() {
-        buttonarea.removeAllViews();
         String name = (String) titleEdit.getText().toString();
         String displayName = (String) displayNameEdit.getText().toString();
         String description = (String) descriptionEdit.getText().toString();
@@ -610,7 +609,6 @@ public class startpage extends AppCompatActivity {
      * Edits a storage
      */
     public void editStorage() {
-        buttonarea.removeAllViews();
         String name = (String) titleEdit.getText().toString();
         String displayName = (String) displayNameEdit.getText().toString();
         String description = (String) descriptionEdit.getText().toString();
@@ -629,8 +627,9 @@ public class startpage extends AppCompatActivity {
         String name = (String) titleEdit.getText().toString();
         String displayName = (String) displayNameEdit.getText().toString();
         String description = (String) descriptionEdit.getText().toString();
-        if(object_type == 1) currentInsideRaum.editObject(currentSelectionItem.getId(),name , displayName, description  );
-        else currentInsideStrg.editObject(currentSelectionItem.getId(),name , displayName, description  );
+        if(object_type == 1) {currentInsideRaum.editObject(currentSelectionItem.getId(),name , displayName, description  );}
+
+        else {currentInsideStrg.editObject(currentSelectionItem.getId(),name , displayName, description  );}
         editType(0);
         Intent intent = new Intent(startpage.this, startpage.class);
         Bundle b = new Bundle();
