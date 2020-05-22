@@ -233,7 +233,7 @@ public class startpage extends AppCompatActivity {
 
         switch(objecttype) {
             case 0: //if its 0, which means inside Hauptmenu
-                headerText.setText(""+object_type);
+                headerText.setText("Sortncheck");
                 //cant make a item/strg if you are selecting rooms
                 itembtn.setVisibility(View.GONE);
                 strgbtn.setVisibility(View.GONE);
@@ -242,14 +242,14 @@ public class startpage extends AppCompatActivity {
             case 1: //if its 1, which means inside  Room
 
                 currentInsideRaum = overhauptmenue.getRaum(currentInsideID);
-                headerText.setText(""+object_type);
+                headerText.setText(""+currentInsideRaum.getName());
                 itembtn.setVisibility(View.VISIBLE);
                 strgbtn.setVisibility(View.VISIBLE);
                 rmbtn.setVisibility(View.GONE);
                 break;
             case 2: //if its 2, which means inside  Storage
                 currentInsideStrg = overhauptmenue.getLager(currentInsideID);
-                headerText.setText(""+object_type);
+                headerText.setText(""+currentInsideStrg.getName());
                 itembtn.setVisibility(View.VISIBLE);
                 strgbtn.setVisibility(View.VISIBLE);
                 rmbtn.setVisibility(View.GONE);
@@ -594,7 +594,7 @@ public class startpage extends AppCompatActivity {
         String name = (String) titleEdit.getText().toString();
         String displayName = (String) displayNameEdit.getText().toString();
         String description = (String) descriptionEdit.getText().toString();
-        overhauptmenue.editRaum(currentSelectionId,name , displayName, description  );
+        currentSelectionRaum.editRaum(name , displayName, description  );
         editType(0);
         Intent intent = new Intent(startpage.this, startpage.class);
         Bundle b = new Bundle();
@@ -612,31 +612,28 @@ public class startpage extends AppCompatActivity {
         String name = (String) titleEdit.getText().toString();
         String displayName = (String) displayNameEdit.getText().toString();
         String description = (String) descriptionEdit.getText().toString();
-        if(object_type == 1) currentInsideRaum.editLager(currentSelectionId,name , displayName, description  );
-        else currentInsideStrg.editLager(currentSelectionId,name , displayName, description  );
-        editType(0);
+        currentSelectionStrg.editLager(name , displayName, description  );
+        editType(0);/*
         Intent intent = new Intent(startpage.this, startpage.class);
         Bundle b = new Bundle();
         b.putInt("objectType", object_type); // 0 = Room, 1 = Storage, 2 = Item  puts in the selected object type and id fot you to know where you are
         b.putLong("Id",currentInsideID);
         intent.putExtras(b);
         startActivity(intent);
-        finish();
+        finish();*/
     }
     public void editItem() {
         String name = (String) titleEdit.getText().toString();
         String displayName = (String) displayNameEdit.getText().toString();
         String description = (String) descriptionEdit.getText().toString();
-        if(object_type == 1) {currentInsideRaum.editObject(currentSelectionItem.getId(),name , displayName, description  );}
-
-        else {currentInsideStrg.editObject(currentSelectionItem.getId(),name , displayName, description  );}
-        editType(0);
+        currentSelectionItem.editObject(name,displayName,description);
+        editType(0);/*
         Intent intent = new Intent(startpage.this, startpage.class);
         Bundle b = new Bundle();
         b.putInt("objectType", object_type); // 0 = Room, 1 = Storage, 2 = Item  puts in the selected object type and id fot you to know where you are
         b.putLong("Id",currentInsideID);
         intent.putExtras(b);
         startActivity(intent);
-        finish();
+        finish();*/
     }
 }
