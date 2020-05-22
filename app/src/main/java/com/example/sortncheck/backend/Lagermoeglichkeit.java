@@ -201,30 +201,16 @@ public class Lagermoeglichkeit implements Parcelable {
     }
 
     /**
-     * Holt eine freie Id fuer ein Lager.
-     * Wird fuer addMMethoden benutzt
-     * @return Eine freie id
-     */
-    public long getFreeLagerID() {
-        if (raum != null) {
-            return raum.getFreeLagerID();
-        }
-        else {
-            return lager.getFreeLagerID();
-        }
-    }
-
-    /**
      * Holt eine freie Id fuer ein Objekt.
      * Wird fuer addMMethoden benutzt
      * @return Eine freie id
      */
-    public long getFreeObjektID() {
+    public long getFreeID() {
         if (raum != null) {
-            return raum.getFreeObjektID();
+            return raum.getFreeID();
         }
         else {
-            return lager.getFreeObjektID();
+            return lager.getFreeID();
         }
     }
 
@@ -279,7 +265,7 @@ public class Lagermoeglichkeit implements Parcelable {
      * @param beschreibung Eine Beschreibung des Objektes
      */
     public void addObjekt(String name, String displayName, String beschreibung) {
-        long id = this.getFreeObjektID();
+        long id = this.getFreeID();
         Objekt o = new Objekt(id, name, displayName, beschreibung, this);
         this.saveNewObjekt(o);
         this.getMenue().saveMenue();
@@ -301,7 +287,7 @@ public class Lagermoeglichkeit implements Parcelable {
      * @param beschreibung Eine Beschreibung des Lagers
      */
     public void addLager(String name, String displayName, String beschreibung) {
-        long id = this.getFreeLagerID();
+        long id = this.getFreeID();
         Lagermoeglichkeit l = new Lagermoeglichkeit(id, name, displayName, beschreibung, this);
        // Log.i("Lagername",l.getDisplayName());
         this.saveNewLager(l);
