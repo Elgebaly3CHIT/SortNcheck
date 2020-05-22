@@ -613,27 +613,27 @@ public class startpage extends AppCompatActivity {
         String displayName = (String) displayNameEdit.getText().toString();
         String description = (String) descriptionEdit.getText().toString();
         currentSelectionStrg.editLager(name , displayName, description  );
-        editType(0);/*
+        editType(0);
         Intent intent = new Intent(startpage.this, startpage.class);
         Bundle b = new Bundle();
         b.putInt("objectType", object_type); // 0 = Room, 1 = Storage, 2 = Item  puts in the selected object type and id fot you to know where you are
         b.putLong("Id",currentInsideID);
         intent.putExtras(b);
         startActivity(intent);
-        finish();*/
+        finish();
     }
     public void editItem() {
         String name = (String) titleEdit.getText().toString();
         String displayName = (String) displayNameEdit.getText().toString();
         String description = (String) descriptionEdit.getText().toString();
         currentSelectionItem.editObject(name,displayName,description);
-        editType(0);/*
+        editType(0);
         Intent intent = new Intent(startpage.this, startpage.class);
         Bundle b = new Bundle();
         b.putInt("objectType", object_type); // 0 = Room, 1 = Storage, 2 = Item  puts in the selected object type and id fot you to know where you are
         b.putLong("Id",currentInsideID);
         intent.putExtras(b);
         startActivity(intent);
-        finish();*/
+        finish();
     }
 }
