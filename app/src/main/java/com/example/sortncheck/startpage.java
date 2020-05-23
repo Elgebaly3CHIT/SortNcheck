@@ -128,7 +128,11 @@ public class startpage extends AppCompatActivity {
                 ViewSwitcher btnswitcher = (ViewSwitcher) findViewById(R.id.cancelbuttons);
                 btnswitcher.showNext();
                 editType(0);
-            }
+
+            ViewSwitcher sqwe = (ViewSwitcher) findViewById(R.id.cancelbuttons);
+            sqwe.showNext();
+        
+                selection_type = 2;}
         });
         //home button
         final ImageButton btn = (ImageButton) findViewById(R.id.homebutton);
@@ -198,8 +202,6 @@ public class startpage extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                ViewSwitcher btnswitcher = (ViewSwitcher) findViewById(R.id.cancelbuttons);
-                btnswitcher.showNext();
                 if(edit_type == -1) {
                     if(selection_type == 0) newRoom()
                             ;
@@ -216,7 +218,6 @@ public class startpage extends AppCompatActivity {
                     if(selection_type == 3) editItem()
                             ;
                 }
-                selection_type = -1;
             }
         });
         /**
@@ -389,6 +390,9 @@ public class startpage extends AppCompatActivity {
             addObject(name, description, displayName, 0);
             update();
             editType(0);
+
+            ViewSwitcher btnswitcher = (ViewSwitcher) findViewById(R.id.cancelbuttons);
+            btnswitcher.showNext();
         }
 
     }
@@ -407,7 +411,11 @@ public class startpage extends AppCompatActivity {
             addObject(name, description, displayName, 1);
             update();
             editType(0);
-        }
+
+            ViewSwitcher sqwe = (ViewSwitcher) findViewById(R.id.cancelbuttons);
+            sqwe.showNext();
+        
+                selection_type = 2;}
 
     }
     /**
@@ -425,7 +433,11 @@ public class startpage extends AppCompatActivity {
             addObject(name, description, displayName, 2);
             update();
             editType(0);
-        }
+
+            ViewSwitcher sqwe = (ViewSwitcher) findViewById(R.id.cancelbuttons);
+            sqwe.showNext();
+        
+                selection_type = 2;}
 
     }
 
@@ -484,8 +496,7 @@ public class startpage extends AppCompatActivity {
             btn1.setBackgroundResource( R.drawable.funbtn);
             btn1.setText(entry.getValue().getDisplayName());
             btn1.setId(Math.toIntExact(entry.getKey()));
-            btn1.setTextSize(30);
-            btn1.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+            btn1.setTextSize(25);
             btn1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -511,7 +522,7 @@ public class startpage extends AppCompatActivity {
             btn1.setBackgroundResource( R.drawable.funbtn);
             btn1.setText(entry.getValue().getDisplayName());
             btn1.setId(Math.toIntExact(entry.getKey()));
-            TextViewCompat.setAutoSizeTextTypeWithDefaults(btn1, TextViewCompat.AUTO_SIZE_TEXT_TYPE_UNIFORM);
+            btn1.setTextSize(25);
             btn1.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
             btn1.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -531,7 +542,7 @@ public class startpage extends AppCompatActivity {
             btn1.setBackgroundResource( R.drawable.funbtn);
             btn1.setText(entry.getValue().getDisplayName());
             btn1.setId(Math.toIntExact(entry.getKey()));
-            TextViewCompat.setAutoSizeTextTypeWithDefaults(btn1, TextViewCompat.AUTO_SIZE_TEXT_TYPE_UNIFORM);
+            btn1.setTextSize(25);
             btn1.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
             btn1.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -558,7 +569,7 @@ public class startpage extends AppCompatActivity {
             btn1.setBackgroundResource( R.drawable.funbtn);
             btn1.setText(entry.getValue().getDisplayName());
             btn1.setId(Math.toIntExact(entry.getKey()));
-            TextViewCompat.setAutoSizeTextTypeWithDefaults(btn1, TextViewCompat.AUTO_SIZE_TEXT_TYPE_UNIFORM);
+            btn1.setTextSize(25);
             btn1.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
             btn1.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -578,7 +589,7 @@ public class startpage extends AppCompatActivity {
             btn1.setBackgroundResource( R.drawable.funbtn);
             btn1.setText(entry.getValue().getDisplayName());
             btn1.setId(Math.toIntExact(entry.getKey()));
-            TextViewCompat.setAutoSizeTextTypeWithDefaults(btn1, TextViewCompat.AUTO_SIZE_TEXT_TYPE_UNIFORM);
+            btn1.setTextSize(25);
             btn1.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
             btn1.setOnClickListener(new View.OnClickListener() {
                 @Override
